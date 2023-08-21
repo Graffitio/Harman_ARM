@@ -1,0 +1,10 @@
+14:23:31 **** Incremental Build of configuration Debug for project Day5_Timer_LED ****
+make -j12 all 
+arm-none-eabi-size   Day5_Timer_LED.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10280	     20	   1708	  12008	   2ee8	Day5_Timer_LED.elf
+Finished building: default.size.stdout
+ 
+
+14:23:32 Build Finished. 0 errors, 0 warnings. (took 253ms)
+

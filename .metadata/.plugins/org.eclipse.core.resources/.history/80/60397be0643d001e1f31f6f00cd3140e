@@ -1,0 +1,21 @@
+/*
+ * Joystick.c
+ *
+ *  Created on: Aug 18, 2023
+ *      Author: USER
+ */
+
+#include "main.h"
+
+void Joystick_Test()
+{
+	HAL_ADC_Start(&hadc1); // Start
+	HAL_ADC_PollForConversion(&hadc1, 100);
+	xVal = HAL_ADC_GetValue(&hadc1)*90/4095; // xVal Read
+	HAL_ADC_PollForConversion(&hadc1, 100);
+	yVal = HAL_ADC_GetValue(&hadc1)*90/4095; // yVal Read
+	HAL_ADC_Stop(&hadc1); // Stop
+	zVal = !(HAL_GPIO_ReadPin(Z_Value_GPIO_Port, Z_Value_Pin));
+	printf("X : %d, Y = %d, Z = %d \r\n", xVal, yVal, zVal);
+	HAL_Delay(300);
+}

@@ -1,0 +1,33 @@
+15:53:16 **** Build of configuration Debug for project Day_4_UART_2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F411xE -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function '__io_putchar':
+../Core/Src/main.c:63:36: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
+   63 |         HAL_UART_Transmit(&huart2, &ch, 1, 100);
+      |                                    ^~~
+      |                                    |
+      |                                    int *
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'int *'
+  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~~~~~~~^~~~~
+../Core/Src/main.c:64:1: warning: control reaches end of non-void function [-Wreturn-type]
+   64 | }
+      | ^
+arm-none-eabi-gcc -o "Day_4_UART_2.elf" @"objects.list"   -mcpu=cortex-m4 -T"D:\Ian_Jung\workplace\STM32\Day_4_UART_2\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Day_4_UART_2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Day_4_UART_2.elf
+ 
+arm-none-eabi-size   Day_4_UART_2.elf 
+arm-none-eabi-objdump -h -S  Day_4_UART_2.elf  > "Day_4_UART_2.list"
+   text	   data	    bss	    dec	    hex	filename
+  10808	    112	   1976	  12896	   3260	Day_4_UART_2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Day_4_UART_2.list
+ 
+
+15:53:17 Build Finished. 0 errors, 2 warnings. (took 765ms)
+

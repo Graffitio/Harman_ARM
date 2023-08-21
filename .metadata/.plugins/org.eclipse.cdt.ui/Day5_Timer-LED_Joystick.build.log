@@ -1,0 +1,10 @@
+15:02:23 **** Incremental Build of configuration Debug for project Day5_Timer-LED_Joystick ****
+make -j12 all 
+arm-none-eabi-size   Day5_Timer-LED_Joystick.elf 
+   text	   data	    bss	    dec	    hex	filename
+  17716	    112	   2192	  20020	   4e34	Day5_Timer-LED_Joystick.elf
+Finished building: default.size.stdout
+ 
+
+15:02:24 Build Finished. 0 errors, 0 warnings. (took 248ms)
+

@@ -1,0 +1,10 @@
+11:50:01 **** Incremental Build of configuration Debug for project Day2_LED_Lamp ****
+make -j12 all 
+arm-none-eabi-size   Day2_LED_Lamp.elf 
+   text	   data	    bss	    dec	    hex	filename
+   8068	     20	   1636	   9724	   25fc	Day2_LED_Lamp.elf
+Finished building: default.size.stdout
+ 
+
+11:50:02 Build Finished. 0 errors, 0 warnings. (took 250ms)
+

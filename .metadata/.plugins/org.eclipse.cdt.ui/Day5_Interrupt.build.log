@@ -1,0 +1,10 @@
+11:48:46 **** Incremental Build of configuration Debug for project Day5_Interrupt ****
+make -j12 all 
+arm-none-eabi-size   Day5_Interrupt.elf 
+   text	   data	    bss	    dec	    hex	filename
+  15464	    112	   2064	  17640	   44e8	Day5_Interrupt.elf
+Finished building: default.size.stdout
+ 
+
+11:48:46 Build Finished. 0 errors, 0 warnings. (took 253ms)
+

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="selection" value="&#x09;HAL_UART_Transmit(&amp;huart2, &quot;Hello Harman!&quot;, 13, 100); // Serial funcrion, Transmit"/>
+		<list key="findhistory">
+			<item value="&#x09;HAL_UART_Transmit(&amp;huart2, &quot;Hello Harman!&quot;, 13, 100); // Serial funcrion, Transmit"/>
+			<item value="&#x09;  int i = HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin); // Read Pin"/>
+		</list>
+	</section>
+</section>
