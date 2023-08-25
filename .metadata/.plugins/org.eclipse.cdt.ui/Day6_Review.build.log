@@ -1,0 +1,10 @@
+16:21:02 **** Incremental Build of configuration Debug for project Day6_Review ****
+make -j12 all 
+arm-none-eabi-size   Day6_Review.elf 
+   text	   data	    bss	    dec	    hex	filename
+  16692	    112	   2064	  18868	   49b4	Day6_Review.elf
+Finished building: default.size.stdout
+ 
+
+16:21:02 Build Finished. 0 errors, 0 warnings. (took 251ms)
+

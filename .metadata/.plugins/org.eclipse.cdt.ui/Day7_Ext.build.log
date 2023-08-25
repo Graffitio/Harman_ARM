@@ -1,0 +1,10 @@
+12:28:24 **** Incremental Build of configuration Debug for project Day7_Ext ****
+make -j12 all 
+arm-none-eabi-size   Day7_Ext.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18020	    152	   2136	  20308	   4f54	Day7_Ext.elf
+Finished building: default.size.stdout
+ 
+
+12:28:24 Build Finished. 0 errors, 0 warnings. (took 247ms)
+

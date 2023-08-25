@@ -1,0 +1,10 @@
+08:16:17 **** Incremental Build of configuration Debug for project Day6_Joystick_Status ****
+make -j12 all 
+arm-none-eabi-size   Day6_Joystick_Status.elf 
+   text	   data	    bss	    dec	    hex	filename
+  15132	    112	   2064	  17308	   439c	Day6_Joystick_Status.elf
+Finished building: default.size.stdout
+ 
+
+08:16:18 Build Finished. 0 errors, 0 warnings. (took 251ms)
+

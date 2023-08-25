@@ -1,0 +1,10 @@
+17:55:33 **** Incremental Build of configuration Debug for project Day6_Timer_Review ****
+make -j12 all 
+arm-none-eabi-size   Day6_Timer_Review.elf 
+   text	   data	    bss	    dec	    hex	filename
+  17572	    128	   2136	  19836	   4d7c	Day6_Timer_Review.elf
+Finished building: default.size.stdout
+ 
+
+17:55:33 Build Finished. 0 errors, 0 warnings. (took 257ms)
+

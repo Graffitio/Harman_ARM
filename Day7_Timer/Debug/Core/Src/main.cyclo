@@ -1,0 +1,12 @@
+../Core/Src/main.c:69:5:__io_putchar	1
+../Core/Src/main.c:75:6:GetDirection	8
+../Core/Src/main.c:98:6:Joystick	4
+../Core/Src/main.c:122:6:HAL_ADC_ConvCPpltCallback	1
+../Core/Src/main.c:128:6:HAL_TIM_PeriodElapsedCallback	2
+../Core/Src/main.c:139:5:main	1
+../Core/Src/main.c:187:6:SystemClock_Config	3
+../Core/Src/main.c:234:13:MX_ADC1_Init	4
+../Core/Src/main.c:295:13:MX_TIM4_Init	4
+../Core/Src/main.c:340:13:MX_USART2_UART_Init	2
+../Core/Src/main.c:373:13:MX_GPIO_Init	1
+../Core/Src/main.c:419:6:Error_Handler	1

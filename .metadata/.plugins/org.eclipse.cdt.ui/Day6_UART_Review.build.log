@@ -1,0 +1,46 @@
+12:19:32 **** Incremental Build of configuration Debug for project Day6_UART_Review ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F411xE -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function '__io_putchar':
+../Core/Src/main.c:64:36: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
+   64 |         HAL_UART_Transmit(&huart2, &ch, 1, 100);
+      |                                    ^~~
+      |                                    |
+      |                                    int *
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'int *'
+  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                                ~~~~~~~~~~~~~~~^~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:99:9: warning: implicit declaration of function 'printf' [-Wimplicit-function-declaration]
+   99 |         printf("Hello! STM32 Application Start.\r\n");
+      |         ^~~~~~
+../Core/Src/main.c:21:1: note: include '<stdio.h>' or provide a declaration of 'printf'
+   20 | #include "main.h"
+  +++ |+#include <stdio.h>
+   21 | 
+../Core/Src/main.c:99:9: warning: incompatible implicit declaration of built-in function 'printf' [-Wbuiltin-declaration-mismatch]
+   99 |         printf("Hello! STM32 Application Start.\r\n");
+      |         ^~~~~~
+../Core/Src/main.c:99:9: note: include '<stdio.h>' or provide a declaration of 'printf'
+../Core/Src/main.c: In function '__io_putchar':
+../Core/Src/main.c:65:1: warning: control reaches end of non-void function [-Wreturn-type]
+   65 | }
+      | ^
+arm-none-eabi-gcc -o "Day6_UART_Review.elf" @"objects.list"   -mcpu=cortex-m4 -T"D:\Ian_Jung\workplace\STM32\Day6_I2C\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Day6_UART_Review.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Day6_UART_Review.elf
+ 
+arm-none-eabi-size   Day6_UART_Review.elf 
+arm-none-eabi-objdump -h -S  Day6_UART_Review.elf  > "Day6_UART_Review.list"
+   text	   data	    bss	    dec	    hex	filename
+  12604	    112	   2048	  14764	   39ac	Day6_UART_Review.elf
+Finished building: default.size.stdout
+ 
+Finished building: Day6_UART_Review.list
+ 
+
+12:19:32 Build Finished. 0 errors, 4 warnings. (took 819ms)
+
