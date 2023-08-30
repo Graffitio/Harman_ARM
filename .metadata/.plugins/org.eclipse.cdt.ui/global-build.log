@@ -1,68 +1,21 @@
-17:10:34 **** Incremental Build of configuration Debug for project Day7_DMA_ ****
-make -j12 all 
+16:25:51 **** Incremental Build of configuration Debug for project Yoon_UART_Tx ****
+make -j4 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F411xE -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function '__io_putchar':
-../Core/Src/main.c:86:31: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
-   86 |    HAL_UART_Transmit(&huart2, &ch, 1, 100);
-      |                               ^~~
-      |                               |
-      |                               int *
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'int *'
-  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
-      |                                                                ~~~~~~~~~~~~~~~^~~~~
-../Core/Src/main.c: In function 'Joystick_Test':
-../Core/Src/main.c:137:4: warning: implicit declaration of function 'printf' [-Wimplicit-function-declaration]
-  137 |    printf("x:%-5d y:%-5d z:%-3d  Direction : %-12s  Status : %-6s   \r\n", xVal, yVal, zVal, dirs[dir], dirs[click_i]);
-      |    ^~~~~~
-../Core/Src/main.c:21:1: note: include '<stdio.h>' or provide a declaration of 'printf'
-   20 | #include "main.h"
-  +++ |+#include <stdio.h>
-   21 | 
-../Core/Src/main.c:137:4: warning: incompatible implicit declaration of built-in function 'printf' [-Wbuiltin-declaration-mismatch]
-  137 |    printf("x:%-5d y:%-5d z:%-3d  Direction : %-12s  Status : %-6s   \r\n", xVal, yVal, zVal, dirs[dir], dirs[click_i]);
-      |    ^~~~~~
-../Core/Src/main.c:137:4: note: include '<stdio.h>' or provide a declaration of 'printf'
-../Core/Src/main.c: In function 'HAL_ADC_ConvCPpltCallback':
-../Core/Src/main.c:165:7: warning: incompatible implicit declaration of built-in function 'printf' [-Wbuiltin-declaration-mismatch]
-  165 |       printf("x:%d y:%d z:%d  Direction : %s  Status : %s   \r\n", xVal, yVal, zVal, dirs[dir], dirs[click_i]);
-      |       ^~~~~~
-../Core/Src/main.c:165:7: note: include '<stdio.h>' or provide a declaration of 'printf'
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:225:29: warning: passing argument 2 of 'HAL_ADC_Start_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
-  225 |   HAL_ADC_Start_DMA(&hadc1, bDMA, 2);
-      |                             ^~~~
-      |                             |
-      |                             BUFFER *
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:295,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h:594:72: note: expected 'uint32_t *' {aka 'long unsigned int *'} but argument is of type 'BUFFER *'
-  594 | HAL_StatusTypeDef HAL_ADC_Start_DMA(ADC_HandleTypeDef* hadc, uint32_t* pData, uint32_t Length);
-      |                                                              ~~~~~~~~~~^~~~~
-../Core/Src/main.c:226:3: warning: incompatible implicit declaration of built-in function 'printf' [-Wbuiltin-declaration-mismatch]
-  226 |   printf("Program Start!\r\n");
-      |   ^~~~~~
-../Core/Src/main.c:226:3: note: include '<stdio.h>' or provide a declaration of 'printf'
-arm-none-eabi-gcc -o "Day7_DMA_.elf" @"objects.list"   -mcpu=cortex-m4 -T"D:\Ian_Jung\workplace\STM32\Day7_DMA_\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Day7_DMA_.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Day7_DMA_.elf
+arm-none-eabi-gcc -o "Yoon_UART_Tx.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Ian_Jung\workplace\Harman_ARM\Yoon_UART_Tx\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Yoon_UART_Tx.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Yoon_UART_Tx.elf
  
-arm-none-eabi-size   Day7_DMA_.elf 
-arm-none-eabi-objdump -h -S  Day7_DMA_.elf  > "Day7_DMA_.list"
+arm-none-eabi-size   Yoon_UART_Tx.elf 
+arm-none-eabi-objdump -h -S  Yoon_UART_Tx.elf  > "Yoon_UART_Tx.list"
    text	   data	    bss	    dec	    hex	filename
-  20948	    152	   2504	  23604	   5c34	Day7_DMA_.elf
+  13236	     20	   3740	  16996	   4264	Yoon_UART_Tx.elf
 Finished building: default.size.stdout
  
-Finished building: Day7_DMA_.list
+Finished building: Yoon_UART_Tx.list
  
-17:10:36 **** Incremental Build of configuration Debug for project Day7_DMA_ ****
-make -j12 all 
-arm-none-eabi-size   Day7_DMA_.elf 
+16:25:54 **** Incremental Build of configuration Debug for project Yoon_UART_Tx ****
+make -j4 all 
+arm-none-eabi-size   Yoon_UART_Tx.elf 
    text	   data	    bss	    dec	    hex	filename
-  20948	    152	   2504	  23604	   5c34	Day7_DMA_.elf
+  13236	     20	   3740	  16996	   4264	Yoon_UART_Tx.elf
 Finished building: default.size.stdout
  

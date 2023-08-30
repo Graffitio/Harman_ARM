@@ -1,0 +1,10 @@
+16:25:54 **** Incremental Build of configuration Debug for project Yoon_UART_Tx ****
+make -j4 all 
+arm-none-eabi-size   Yoon_UART_Tx.elf 
+   text	   data	    bss	    dec	    hex	filename
+  13236	     20	   3740	  16996	   4264	Yoon_UART_Tx.elf
+Finished building: default.size.stdout
+ 
+
+16:25:55 Build Finished. 0 errors, 0 warnings. (took 692ms)
+
