@@ -1,0 +1,10 @@
+17:12:47 **** Incremental Build of configuration Debug for project Day8_PWM ****
+make -j4 all 
+arm-none-eabi-size   Day8_PWM.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10868	     20	   1780	  12668	   317c	Day8_PWM.elf
+Finished building: default.size.stdout
+ 
+
+17:12:48 Build Finished. 0 errors, 0 warnings. (took 691ms)
+

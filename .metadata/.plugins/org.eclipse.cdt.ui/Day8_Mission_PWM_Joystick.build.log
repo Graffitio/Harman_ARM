@@ -1,0 +1,10 @@
+18:56:56 **** Incremental Build of configuration Debug for project Day8_Mission_PWM_Joystick ****
+make -j4 all 
+arm-none-eabi-size   Day8_Mission_PWM_Joystick.elf 
+   text	   data	    bss	    dec	    hex	filename
+  16180	    112	   2200	  18492	   483c	Day8_Mission_PWM_Joystick.elf
+Finished building: default.size.stdout
+ 
+
+18:56:56 Build Finished. 0 errors, 0 warnings. (took 766ms)
+

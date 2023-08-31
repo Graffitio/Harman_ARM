@@ -1,7 +1,7 @@
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
-configDescList=org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Yoon_UART_Tx Debug
+configDescList=org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Day8_PWM Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Day8_Mission_PWM_Joystick Debug
 eclipse.preferences.version=1
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Day2_UART\ Debug/activeLaunchMode=run
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Day2_UART\ Debug/activeLaunchTarget=null\:---
@@ -22,6 +22,9 @@ org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Day7_DMA_\ Debug/activeLaunchMo
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Day7_Ext\ Debug/activeLaunchMode=run
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Day7_Ext\ Debug/activeLaunchTarget=null\:---
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Day7_Timer\ Debug/activeLaunchMode=run
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Day8_Mission_PWM_Joystick\ Debug/activeLaunchMode=run
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Day8_PWM\ Debug/activeLaunchMode=run
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Day8_RTOS\ Debug/activeLaunchMode=run
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Day_4_ADC\ Debug/activeLaunchMode=debug
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Day_4_ADC\ Debug/activeLaunchTarget=null\:---
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Day_4_ADC_Mission\ Debug/activeLaunchMode=run
