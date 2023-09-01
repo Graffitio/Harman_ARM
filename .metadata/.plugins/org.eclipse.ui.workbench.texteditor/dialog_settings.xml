@@ -8,6 +8,7 @@
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="Callback"/>
 			<item value="start"/>
 			<item value="&#x09;HAL_UART_Transmit(&amp;huart2, &quot;Hello Harman!&quot;, 13, 100); // Serial funcrion, Transmit"/>
 			<item value="&#x09;  int i = HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin); // Read Pin"/>

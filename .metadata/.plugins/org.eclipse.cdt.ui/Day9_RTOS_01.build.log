@@ -1,0 +1,10 @@
+16:43:10 **** Incremental Build of configuration Debug for project Day9_RTOS_01 ****
+make -j4 all 
+arm-none-eabi-size   Day9_RTOS_01.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24176	    116	  18636	  42928	   a7b0	Day9_RTOS_01.elf
+Finished building: default.size.stdout
+ 
+
+16:43:11 Build Finished. 0 errors, 0 warnings. (took 774ms)
+

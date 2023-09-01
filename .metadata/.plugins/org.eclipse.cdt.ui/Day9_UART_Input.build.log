@@ -1,0 +1,10 @@
+12:54:30 **** Incremental Build of configuration Debug for project Day9_UART_Input ****
+make -j4 all 
+arm-none-eabi-size   Day9_UART_Input.elf 
+   text	   data	    bss	    dec	    hex	filename
+  16720	    112	   1976	  18808	   4978	Day9_UART_Input.elf
+Finished building: default.size.stdout
+ 
+
+12:54:31 Build Finished. 0 errors, 0 warnings. (took 709ms)
+
