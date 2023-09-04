@@ -1,96 +1,14 @@
-16:43:07 **** Incremental Build of configuration Debug for project Day9_RTOS_01 ****
+19:33:40 **** Incremental Build of configuration Debug for project Project_PackMan_ ****
 make -j4 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F411xE -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function '__io_putchar':
-../Core/Src/main.c:70:36: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
-   70 |         HAL_UART_Transmit(&huart2, &ch, 1, 10);
-      |                                    ^~~
-      |                                    |
-      |                                    int *
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'int *'
-  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
-      |                                                                ~~~~~~~~~~~~~~~^~~~~
-../Core/Src/main.c: In function '__io_getchar':
-../Core/Src/main.c:78:46: warning: passing argument 2 of 'HAL_UART_Receive' from incompatible pointer type [-Wincompatible-pointer-types]
-   78 |                 if(HAL_UART_Receive(&huart2, &ch, 1, 10) == HAL_OK)
-      |                                              ^~~
-      |                                              |
-      |                                              int *
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:723:72: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int *'
-  723 | HAL_StatusTypeDef HAL_UART_Receive(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
-      |                                                               ~~~~~~~~~^~~~~
-../Core/Src/main.c:83:44: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
-   83 |                 HAL_UART_Transmit(&huart2, "\b \b", 3, 10); // \b \b : 총 세 글자이기때문에 3
-      |                                            ^~~~~~~
-      |                                            |
-      |                                            char *
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char *'
-  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
-      |                                                                ~~~~~~~~~~~~~~~^~~~~
-../Core/Src/main.c:87:44: warning: pointer targets in passing argument 2 of 'HAL_UART_Transmit' differ in signedness [-Wpointer-sign]
-   87 |                 HAL_UART_Transmit(&huart2, "\r\n", 2, 10);
-      |                                            ^~~~~~
-      |                                            |
-      |                                            char *
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char *'
-  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
-      |                                                                ~~~~~~~~~~~~~~~^~~~~
-../Core/Src/main.c:89:41: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
-   89 |         else HAL_UART_Transmit(&huart2, &ch, 1, 10);
-      |                                         ^~~
-      |                                         |
-      |                                         int *
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'int *'
-  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
-      |                                                                ~~~~~~~~~~~~~~~^~~~~
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:136:33: warning: passing argument 2 of 'HAL_UART_Receive_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
-  136 |   HAL_UART_Receive_DMA(&huart2, &rxbuf, 1);
-      |                                 ^~~~~~
-      |                                 |
-      |                                 char (*)[100]
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:727:76: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char (*)[100]'
-  727 | HAL_StatusTypeDef HAL_UART_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
-      |                                                                   ~~~~~~~~~^~~~~
-arm-none-eabi-gcc -o "Day9_RTOS_01.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Ian_Jung\workplace\Harman_ARM\Day9_RTOS\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Day9_RTOS_01.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Day9_RTOS_01.elf
- 
-arm-none-eabi-size   Day9_RTOS_01.elf 
-arm-none-eabi-objdump -h -S  Day9_RTOS_01.elf  > "Day9_RTOS_01.list"
+arm-none-eabi-size   Project_PackMan_.elf 
    text	   data	    bss	    dec	    hex	filename
-  24176	    116	  18636	  42928	   a7b0	Day9_RTOS_01.elf
+  20308	    112	   2296	  22716	   58bc	Project_PackMan_.elf
 Finished building: default.size.stdout
  
-Finished building: Day9_RTOS_01.list
- 
-16:43:10 **** Incremental Build of configuration Debug for project Day9_RTOS_01 ****
+19:33:47 **** Incremental Build of configuration Debug for project Project_PackMan_ ****
 make -j4 all 
-arm-none-eabi-size   Day9_RTOS_01.elf 
+arm-none-eabi-size   Project_PackMan_.elf 
    text	   data	    bss	    dec	    hex	filename
-  24176	    116	  18636	  42928	   a7b0	Day9_RTOS_01.elf
+  20308	    112	   2296	  22716	   58bc	Project_PackMan_.elf
 Finished building: default.size.stdout
  
