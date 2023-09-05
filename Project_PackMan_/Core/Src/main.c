@@ -57,19 +57,19 @@ typedef enum{
 }Direction;
 
 typedef struct{
-	int row;
-	int col;
-	int image_num;
-	int past_position[2][16];
-	uint8_t prey;
-}Charactor;
+	int row; // 캐릭터 행 위치
+	int col; // 캐릭터 열 위치
+	int image_num; // 캐릭터 이미지 번호
+	int past_position[2][16]; // 캐릭터의 이전 위치 저장
+	uint8_t food; // 캐릭터 먹이
+}Character;
 
 typedef struct{
 	int row;
 	int col;
 	int image_num;
 	int past_position[2][16];
-	uint8_t prey;
+	uint8_t food;
 }Enemy;
 
 typedef enum{
@@ -109,46 +109,89 @@ void JoyStick()
 
 Direction Dir_Joystick() // 조이스틱 방향 출력 함수
 {
-	if(dir[0] > 3000) return RIGHT;
-	else if(dir[0] < 1000) return LEFT;
-	else if(dir[1] > 3000) return UP;
-	else if(dir[1] < 1000) return DOWN;
+	if(dir[0] > 3500) return RIGHT;
+	else if(dir[0] < 500) return LEFT;
+	else if(dir[1] > 3500) return UP;
+	else if(dir[1] < 500) return DOWN;
 	else return NONE;
 }
 
-void Move_Pacman(Charactor *charactor, Direction direc)
+void Move_Pacman(Character *character, Direction direc)
 {
 	switch(Direction)
 	{
 	case RIGHT :
-		charactor->col++; // RIGHT 입력 시, 1칸 이동
-		if(charactor->col > 15) charactor->col = 15; // 칸 넘어가지 말고 그 자리에서 정지
-		charactor->image_num &= ~(0x2);
-		charactor->image_num ^= 1;
+		character->col++; // RIGHT 입력 시, 1칸 이동
+		if(character->col > 15) character->col = 15; // 칸 넘어가지 말고 그 자리에서 정지
+		character->image_num &= ~(0x2); // 오른쪽 방향 이미지 : 0, 1
+		character->image_num ^= 1;
 		break;
 
 	case LEFT :
-		charactor->col--;
-		if(charactor->col < 0) charactor->col = 0;
-		charactor->image_num |= 0x2;
-		charactor->image_num ^= 1;
+		character->col--;
+		if(character->col < 0) character->col = 0;
+		character->image_num |= 0x2; // 왼쪽 방향 이미지 : 2, 3
+		character->image_num ^= 1;
 		break;
 
 	case UP :
-		charactor->row--;
-		if(charactor->row < 0) charactor->row = 0;
+		character->row--;
+		if(character->row < 0) character->row = 0;
 		break;
 
 	case DOWN :
-		charactor->row++;
-		if(charactor->row > 1) charactor->row = 1;
+		character->row++;
+		if(character->row > 1) character->row = 1;
 		break;
 
 	default :
 		break;
 	}
-	charactor->past_position[charactor->row][charactor->col] = 1;
+	character->past_position[character->row][character->col] = 1;
+	// 캐릭터 시작은 0,0
+	// 모든 위치에 한 번씩 다 도달하여 이차원배열이 1로 채워지면,
+	// 먹이를 다 먹었다는 뜻.
 }
+
+
+void LCD_Display(Character *character)
+{
+	uint8_t count = 0; // 먹이의 갯수를 세는 변수 count
+	lcd_clear();
+	lcd_put_cur(character->row, character->col); // 캐릭터의 현재 위치로 커서 이동
+	lcd_send_data(character->image_num); // 캐릭터 이미지 데이터를 LCD에 출력
+	for(int i = 0 ; i <= 1 ; i++)
+	{
+		for(int j = 0 ; j < 16 ; j++)
+		{
+			if (charactor->past_position[i][j] != 1) // pacman이 지나가지 않은 곳에 먹이 생성
+			{
+				lcd_put_cur(i, j); // 지나간 위치 빼고 모든 위치에 먹이 배치
+				lcd_send_data(0xa5); // 먹이 모양 : 0xa5 / LCD 데이터 시트 참조
+				count++;
+			}
+		}
+	}
+	// 생성된 먹이의 갯수와 캐릭터가 먹은 먹이의 수를 비교하여 소리 조절
+	if(count < character->food)
+	{
+		// PWM 사용하여 소리 출력
+		TIM3->CCR1 = TIM3->ARR / 2;
+		character->food = count;
+	}
+}
+
+
+void Move_Enemy(Enemy *enemy, Character character, uint8_t pulse)
+{
+	uint8_t move = rand()%2;
+
+	if(pule == 1 && enemy->clock_before == 0)
+	{
+
+	}
+}
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -205,11 +248,11 @@ int main(void)
 
 
   // Pacman 이미지를 LCD에 출력
-  lcd_send_cmd(0x40); // LCD 화면의 DDRAM 주소를 설정하여 화면의 원하는 위치에 출력
+  lcd_send_cmd(0x40); // LCD 화면의 DDRAM 주소를 설정하여 화면의 원하는 위치에 출력, DDRAM Address 2열 1번이 0x00 또는 0x40
   for(int i = 0 ; i < 8 ; i++)
 	  lcd_send_data(pac1[i]);
 
-  lcd_send_cmd(0x40+8);
+  lcd_send_cmd(0x40+8); // 8bit씩이니까 2번은 0x40 + 8
   for(int i = 0 ; i < 8 ; i++)
 	  lcd_send_data(pac2[i]);
 
@@ -242,7 +285,7 @@ int main(void)
 	  HAL_Delay(100); // 눌리면, 100ms 뒤 시작
 
   HAL_TIM_Base_Start_IT(&htim2); // TIM2를 인터럽트로 사용
-  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3); // Sound를 위한 PWM
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1); // Sound를 위한 PWM
 
   StartSound();
 
