@@ -115,7 +115,6 @@ void Move_Pacman(Character *character, Direction direc)
 		if(character->col > 15) character->col = 15; // 칸 넘어가지 말고 그 자리에서 정지
 		character->image_num &= ~(0x2); // 오른쪽 방향 이미지 : 0, 1
 		character->image_num ^= 1;
-//		LCD_Display_Charactor(character);
 		break;
 
 	case LEFT :
@@ -123,23 +122,19 @@ void Move_Pacman(Character *character, Direction direc)
 		if(character->col < 0) character->col = 0;
 		character->image_num |= 0x2; // 왼쪽 방향 이미지 : 2, 3
 		character->image_num ^= 1;
-//		LCD_Display_Charactor(character);
 		break;
 
 	case UP :
 		character->row--;
 		if(character->row < 0) character->row = 0;
-//		LCD_Display_Charactor(character);
 		break;
 
 	case DOWN :
 		character->row++;
 		if(character->row > 1) character->row = 1;
-//		LCD_Display_Charactor(character);
 		break;
 
 	default :
-//		LCD_Display_Charactor(character);
 		break;
 	}
 	character->past_position[character->row][character->col] = 1;
@@ -292,7 +287,11 @@ void LevelupInit(Character *character, Enemy *enemy)
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
+//	ClockFlag ^= 0x01;
 	clk_pulse ^= 0x01;
+	  if (htim->Instance == TIM10) {
+	    HAL_IncTick();
+	  }
 }
 
 
@@ -506,14 +505,14 @@ int main(void)
 	if(game_status == ING)
 	{
 		Move_Pacman(&pacman, Dir_Joystick());
-		Move_Enemy(&octopus, pacman, clk_pulse);
 		LCD_Display_Charactor(&pacman);
+		Move_Enemy(&octopus, pacman, clk_pulse);
 		LCD_Display_Enemy(octopus);
 
 		game_status = GameStatus(&pacman, &octopus);
 
 //		HAL_Delay(100);
-		HAL_Delay(130);
+		HAL_Delay(15);
 		TIM3->CCR1 = 0;
 	}
 	else if(game_status == WIN)

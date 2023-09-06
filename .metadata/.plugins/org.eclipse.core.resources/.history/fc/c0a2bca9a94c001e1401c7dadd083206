@@ -115,7 +115,6 @@ void Move_Pacman(Character *character, Direction direc)
 		if(character->col > 15) character->col = 15; // 칸 넘어가지 말고 그 자리에서 정지
 		character->image_num &= ~(0x2); // 오른쪽 방향 이미지 : 0, 1
 		character->image_num ^= 1;
-//		LCD_Display_Charactor(character);
 		break;
 
 	case LEFT :
@@ -123,23 +122,19 @@ void Move_Pacman(Character *character, Direction direc)
 		if(character->col < 0) character->col = 0;
 		character->image_num |= 0x2; // 왼쪽 방향 이미지 : 2, 3
 		character->image_num ^= 1;
-//		LCD_Display_Charactor(character);
 		break;
 
 	case UP :
 		character->row--;
 		if(character->row < 0) character->row = 0;
-//		LCD_Display_Charactor(character);
 		break;
 
 	case DOWN :
 		character->row++;
 		if(character->row > 1) character->row = 1;
-//		LCD_Display_Charactor(character);
 		break;
 
 	default :
-//		LCD_Display_Charactor(character);
 		break;
 	}
 	character->past_position[character->row][character->col] = 1;
