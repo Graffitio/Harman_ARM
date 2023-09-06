@@ -47,6 +47,7 @@
 
 /* USER CODE BEGIN PV */
 char buf[1]; // DMA buffer
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/

@@ -1,186 +1,50 @@
-17:39:04 **** Incremental Build of configuration Debug for project Motor_Test ****
+20:02:21 **** Incremental Build of configuration Debug for project Project_PackMan_ ****
 make -j4 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F411xE -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function '__io_putchar':
-../Core/Src/main.c:58:36: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
-   58 |         HAL_UART_Transmit(&huart2, &ch, 1, 50);
-      |                                    ^~~
-      |                                    |
-      |                                    int *
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'int *'
-  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
-      |                                                                ~~~~~~~~~~~~~~~^~~~~
-../Core/Src/main.c: In function '__io_getchar':
-../Core/Src/main.c:67:46: warning: passing argument 2 of 'HAL_UART_Receive' from incompatible pointer type [-Wincompatible-pointer-types]
-   67 |                 if(HAL_UART_Receive(&huart2, &ch, 1, 50) == HAL_OK)
-      |                                              ^~~
-      |                                              |
-      |                                              int *
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:723:72: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int *'
-  723 | HAL_StatusTypeDef HAL_UART_Receive(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
-      |                                                               ~~~~~~~~~^~~~~
-../Core/Src/main.c:70:36: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
-   70 |         HAL_UART_Transmit(&huart2, &ch, 1, 50);
-      |                                    ^~~
-      |                                    |
-      |                                    int *
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'int *'
-  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
-      |                                                                ~~~~~~~~~~~~~~~^~~~~
-../Core/Src/main.c: In function 'HAL_UART_RxCpltCallback':
-../Core/Src/main.c:110:32: warning: pointer targets in passing argument 2 of 'HAL_UART_Receive_IT' differ in signedness [-Wpointer-sign]
-  110 |   HAL_UART_Receive_IT(&huart1, buf, sizeof(buf));
-      |                                ^~~
-      |                                |
-      |                                char *
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:725:75: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
-  725 | HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
-      |                                                                  ~~~~~~~~~^~~~~
-../Core/Src/main.c:111:32: warning: pointer targets in passing argument 2 of 'HAL_UART_Receive_IT' differ in signedness [-Wpointer-sign]
-  111 |   HAL_UART_Receive_IT(&huart2, buf, sizeof(buf));
-      |                                ^~~
-      |                                |
-      |                                char *
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:725:75: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
-  725 | HAL_StatusTypeDef HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
-      |                                                                  ~~~~~~~~~^~~~~
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:166:33: warning: pointer targets in passing argument 2 of 'HAL_UART_Receive_DMA' differ in signedness [-Wpointer-sign]
-  166 |   HAL_UART_Receive_DMA(&huart1, buf, sizeof(buf));
-      |                                 ^~~
-      |                                 |
-      |                                 char *
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:727:76: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
-  727 | HAL_StatusTypeDef HAL_UART_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
-      |                                                                   ~~~~~~~~~^~~~~
-../Core/Src/main.c:167:33: warning: pointer targets in passing argument 2 of 'HAL_UART_Receive_DMA' differ in signedness [-Wpointer-sign]
-  167 |   HAL_UART_Receive_DMA(&huart2, buf, sizeof(buf));
-      |                                 ^~~
-      |                                 |
-      |                                 char *
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:727:76: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
-  727 | HAL_StatusTypeDef HAL_UART_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
-      |                                                                   ~~~~~~~~~^~~~~
-arm-none-eabi-gcc -o "Motor_Test.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Ian_Jung\workplace\Harman_ARM\Motor_Test\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Motor_Test.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Motor_Test.elf
+../Core/Src/main.c: In function 'GameStatus':
+../Core/Src/main.c:228:17: warning: implicit declaration of function 'LoseSound' [-Wimplicit-function-declaration]
+  228 |                 LoseSound();
+      |                 ^~~~~~~~~
+../Core/Src/main.c:233:17: warning: implicit declaration of function 'WinSound' [-Wimplicit-function-declaration]
+  233 |                 WinSound();
+      |                 ^~~~~~~~
+../Core/Src/main.c:241:17: warning: implicit declaration of function 'LevelupInit' [-Wimplicit-function-declaration]
+  241 |                 LevelupInit(character, enemy);
+      |                 ^~~~~~~~~~~
+../Core/Src/main.c: At top level:
+../Core/Src/main.c:270:6: warning: conflicting types for 'LevelupInit'; have 'void(Character *, Enemy *)'
+  270 | void LevelupInit(Character *character, Enemy *enemy)
+      |      ^~~~~~~~~~~
+../Core/Src/main.c:241:17: note: previous implicit declaration of 'LevelupInit' with type 'void(Character *, Enemy *)'
+  241 |                 LevelupInit(character, enemy);
+      |                 ^~~~~~~~~~~
+../Core/Src/main.c:313:6: warning: conflicting types for 'LoseSound'; have 'void()'
+  313 | void LoseSound()
+      |      ^~~~~~~~~
+../Core/Src/main.c:228:17: note: previous implicit declaration of 'LoseSound' with type 'void()'
+  228 |                 LoseSound();
+      |                 ^~~~~~~~~
+../Core/Src/main.c:333:6: warning: conflicting types for 'WinSound'; have 'void()'
+  333 | void WinSound()
+      |      ^~~~~~~~
+../Core/Src/main.c:233:17: note: previous implicit declaration of 'WinSound' with type 'void()'
+  233 |                 WinSound();
+      |                 ^~~~~~~~
+arm-none-eabi-gcc -o "Project_PackMan_.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Ian_Jung\workplace\Harman_ARM\Project_PackMan_\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Project_PackMan_.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Project_PackMan_.elf
  
-arm-none-eabi-size   Motor_Test.elf 
-arm-none-eabi-objdump -h -S  Motor_Test.elf  > "Motor_Test.list"
+arm-none-eabi-size   Project_PackMan_.elf 
+arm-none-eabi-objdump -h -S  Project_PackMan_.elf  > "Project_PackMan_.list"
    text	   data	    bss	    dec	    hex	filename
-  18604	    112	   2384	  21100	   526c	Motor_Test.elf
+  26964	    116	   2388	  29468	   731c	Project_PackMan_.elf
 Finished building: default.size.stdout
  
-Finished building: Motor_Test.list
+Finished building: Project_PackMan_.list
  
-17:39:07 **** Incremental Build of configuration Debug for project Motor_Test ****
+20:02:26 **** Incremental Build of configuration Debug for project Project_PackMan_ ****
 make -j4 all 
-arm-none-eabi-size   Motor_Test.elf 
+arm-none-eabi-size   Project_PackMan_.elf 
    text	   data	    bss	    dec	    hex	filename
-  18604	    112	   2384	  21100	   526c	Motor_Test.elf
+  26964	    116	   2388	  29468	   731c	Project_PackMan_.elf
 Finished building: default.size.stdout
- 
-19:26:14 **** Incremental Build of configuration Debug for project Motor_Test ****
-make -j4 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F411xE -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function '__io_putchar':
-../Core/Src/main.c:58:36: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
-   58 |         HAL_UART_Transmit(&huart2, &ch, 1, 50);
-      |                                    ^~~
-      |                                    |
-      |                                    int *
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'int *'
-  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
-      |                                                                ~~~~~~~~~~~~~~~^~~~~
-../Core/Src/main.c: In function '__io_getchar':
-../Core/Src/main.c:67:46: warning: passing argument 2 of 'HAL_UART_Receive' from incompatible pointer type [-Wincompatible-pointer-types]
-   67 |                 if(HAL_UART_Receive(&huart2, &ch, 1, 50) == HAL_OK)
-      |                                              ^~~
-      |                                              |
-      |                                              int *
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:723:72: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int *'
-  723 | HAL_StatusTypeDef HAL_UART_Receive(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
-      |                                                               ~~~~~~~~~^~~~~
-../Core/Src/main.c:70:36: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
-   70 |         HAL_UART_Transmit(&huart2, &ch, 1, 50);
-      |                                    ^~~
-      |                                    |
-      |                                    int *
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:722:79: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'int *'
-  722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
-      |                                                                ~~~~~~~~~~~~~~~^~~~~
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:166:33: warning: pointer targets in passing argument 2 of 'HAL_UART_Receive_DMA' differ in signedness [-Wpointer-sign]
-  166 |   HAL_UART_Receive_DMA(&huart1, buf, sizeof(buf));
-      |                                 ^~~
-      |                                 |
-      |                                 char *
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:727:76: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
-  727 | HAL_StatusTypeDef HAL_UART_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
-      |                                                                   ~~~~~~~~~^~~~~
-../Core/Src/main.c:167:33: warning: pointer targets in passing argument 2 of 'HAL_UART_Receive_DMA' differ in signedness [-Wpointer-sign]
-  167 |   HAL_UART_Receive_DMA(&huart2, buf, sizeof(buf));
-      |                                 ^~~
-      |                                 |
-      |                                 char *
-In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
-                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
-                 from ../Core/Inc/main.h:30,
-                 from ../Core/Src/main.c:20:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:727:76: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
-  727 | HAL_StatusTypeDef HAL_UART_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
-      |                                                                   ~~~~~~~~~^~~~~
-arm-none-eabi-gcc -o "Motor_Test.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Ian_Jung\workplace\Harman_ARM\Motor_Test\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Motor_Test.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Motor_Test.elf
- 
-arm-none-eabi-size   Motor_Test.elf 
-arm-none-eabi-objdump -h -S  Motor_Test.elf  > "Motor_Test.list"
-   text	   data	    bss	    dec	    hex	filename
-  18356	    112	   2384	  20852	   5174	Motor_Test.elf
-Finished building: default.size.stdout
- 
-Finished building: Motor_Test.list
  

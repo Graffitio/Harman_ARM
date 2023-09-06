@@ -50,19 +50,27 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint32_t dir[10];
+typedef enum{
+	ING,
+	WIN,
+	OVER
+}Game_status;
+Game_status game_status=ING;
 
 typedef enum{
-	UP, DOWN, RIGHT, LEFT, NONE
-}Direction;
+	LEVEL1=1,
+	LEVEL2,
+	LEVEL3
+}Level;
+Level level=LEVEL1;
 
-typedef struct{
-	int row; // 캐릭터 행 위치
-	int col; // 캐릭터 열 위치
-	int image_num; // 캐릭터 이미지 번호
-	int past_position[2][16]; // 캐릭터의 이전 위치 저장
-	uint8_t food; // 캐릭터 먹이
-}Character;
+typedef enum{
+	UP,
+	DOWN,
+	RIGHT,
+	LEFT,
+	NONE
+}Direction;
 
 typedef struct{
 	int row;
@@ -70,55 +78,37 @@ typedef struct{
 	int image_num;
 	int past_position[2][16];
 	uint8_t food;
+}Character;
+
+typedef struct{
+	int row;
+	int col;
+	int image_num;
+	uint8_t clock_before;
 }Enemy;
 
-typedef enum{
-	ING,
-	WIN,
-	OVER
-}_Game_status;
-_Game_status game_status=ING;
+uint32_t dir[2];
 
-typedef enum{
-	LEVEL1=1,
-	LEVEL2,
-	LEVEL3
-}_Level;
-_Level level=LEVEL1;
-
-uint8_t ClockFlag;
-
+uint8_t clk_pulse;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 
-void JoyStick()
-{
-	HAL_ADC_Start(&hadc1);
-	HAL_ADC_PollForConversion(&hadc1, 50);
-	dir[0] = HAL_ADC_GetValue(&hadc1);
-
-	HAL_ADC_PollForConversion(&hadc1, 50);
-	dir[1] = HAL_ADC_GetValue(&hadc1);
-	HAL_ADC_Stop(&hadc1);
-
-	dir[2] = !(HAL_GPIO_ReadPin(Joystick_Button_GPIO_Port, Joystick_Button_Pin));
-}
-
 Direction Dir_Joystick() // 조이스틱 방향 출력 함수
 {
-	if(dir[0] > 3500) return RIGHT;
-	else if(dir[0] < 500) return LEFT;
-	else if(dir[1] > 3500) return UP;
-	else if(dir[1] < 500) return DOWN;
+	// 중간값에 가까워질수록 민감도 높아짐.
+	if(dir[0] > 3150) return LEFT;
+	else if(dir[0] < 600) return RIGHT;
+	else if(dir[1] > 3110) return UP;
+	else if(dir[1] < 600) return DOWN;
 	else return NONE;
 }
 
 void Move_Pacman(Character *character, Direction direc)
 {
-	switch(Direction)
+	switch(direc)
 	{
 	case RIGHT :
 		character->col++; // RIGHT 입력 시, 1칸 이동
@@ -154,17 +144,19 @@ void Move_Pacman(Character *character, Direction direc)
 }
 
 
-void LCD_Display(Character *character)
+void LCD_Display_Charactor(Character *character)
 {
 	uint8_t count = 0; // 먹이의 갯수를 세는 변수 count
 	lcd_clear();
 	lcd_put_cur(character->row, character->col); // 캐릭터의 현재 위치로 커서 이동
 	lcd_send_data(character->image_num); // 캐릭터 이미지 데이터를 LCD에 출력
+
+	// 캐릭터 먹이 생성
 	for(int i = 0 ; i <= 1 ; i++)
 	{
 		for(int j = 0 ; j < 16 ; j++)
 		{
-			if (charactor->past_position[i][j] != 1) // pacman이 지나가지 않은 곳에 먹이 생성
+			if (character->past_position[i][j] != 1) // pacman이 지나가지 않은 곳에 먹이 생성
 			{
 				lcd_put_cur(i, j); // 지나간 위치 빼고 모든 위치에 먹이 배치
 				lcd_send_data(0xa5); // 먹이 모양 : 0xa5 / LCD 데이터 시트 참조
@@ -182,16 +174,199 @@ void LCD_Display(Character *character)
 }
 
 
-void Move_Enemy(Enemy *enemy, Character character, uint8_t pulse)
+void Move_Enemy(Enemy *enemy, Character character, uint8_t clk_pulse) // enemy는 포인터 변수, charactor는 구조체이므로 enemy->col, charaoctr->col
 {
-	uint8_t move = rand()%2;
+	uint8_t move = rand()%2; // 0 또는 1 중의 무작위값 선택
 
-	if(pule == 1 && enemy->clock_before == 0)
+	if(clk_pulse == 1 && enemy->clock_before == 0)
 	{
-
+		if(move == 0)
+		{
+			if(enemy->row != character.row) // Enemy와 Charactoc의 행이 다른 경우
+				enemy->row = character.row; // Enemy는 Charactor쪽으로 이동한다.
+		}
+		else if(move == 1)
+		{
+			if(enemy->col > character.col) // enemy가 charactor보다 오른쪽에 있다면,
+			{
+				enemy->col--; // 왼쪽으로 이동시켜라.
+				if(enemy->col < 0) // 화면 밖으로 나가지 않도록 설정
+					enemy->col = 0;
+			}
+			else if(enemy->col < character.col) // enemy가 charactor보다 왼쪽에 있다면,
+			{
+				enemy->col++; // 오른쪽으로 이동시켜라
+				if(enemy->col > 15) // 화면 밖으로 나가지 않도록 설정
+					enemy->col = 15;
+			}
+		}
 	}
+	enemy->clock_before = clk_pulse;
 }
 
+
+void LCD_Display_Enemy(Enemy enemy)
+{
+	lcd_put_cur(enemy.row, enemy.col);
+	lcd_send_data(enemy.image_num);
+}
+
+
+Game_status GameStatus(Character *character, Enemy *enemy)
+{
+	uint8_t cnt = 0;
+	for(int i = 0 ; i <= 1 ; i++)
+	{
+		for(int j = 0 ; j < 16 ; j++)
+		{
+			if(character->past_position[i][j] == 1)
+				cnt++;
+		}
+	}
+	if(character->row == enemy->row && character->col == enemy->col)
+	{
+		LoseSound();
+		return OVER;
+	}
+	else if(cnt == 32 && level == 1)
+	{
+		WinSound();
+		lcd_clear();
+		lcd_put_cur(0, 1);
+		lcd_send_string("Level 2");
+		HAL_Delay(500);
+		lcd_put_cur(1, 9);
+		lcd_send_string("Start!");
+		HAL_Delay(800);
+		LevelupInit(character, enemy);
+//		TIM2->PSC = 6750; // 문어 속도 Lv1보다 빠르게
+		TIM2->PSC = 5000; // 문어 속도 Lv1보다 빠르게
+		return game_status;
+	}
+	else if(cnt == 32 && level == 2)
+	{
+		WinSound();
+		lcd_clear();
+		lcd_put_cur(0, 1);
+		lcd_send_string("Level 3");
+		HAL_Delay(500);
+		lcd_put_cur(1, 9);
+		lcd_send_string("Start!");
+		HAL_Delay(800);
+		LevelupInit(character, enemy);
+//		TIM2->PSC = 4500; // 문어 속도 Lv2보다 빠르게
+		TIM2->PSC = 3500; // 문어 속도 Lv2보다 빠르게
+		return game_status;
+	}
+	else if(cnt == 32 && level == 3)
+	{
+		WinSound();
+		return WIN;
+	}
+	else return game_status;
+}
+
+
+void LevelupInit(Character *character, Enemy *enemy)
+{
+	level++; // enum type의 장점, 문자에 각 번호가 할당되어 연산식 사용이 편하다.
+	character->row = 0;
+	character->col = 0;
+	character->food = 31;
+	for(int i = 0 ; i <= 1 ; i++)
+	{
+		for(int j = 0 ; j < 16 ; j++)
+		{
+			character->past_position[i][j] = 0;
+		}
+	}
+	enemy->row = 1;
+	enemy->col = 8;
+}
+
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+//	ClockFlag ^= 0x01;
+	clk_pulse ^= 0x01;
+	  if (htim->Instance == TIM10) {
+	    HAL_IncTick();
+	  }
+}
+
+
+void StartSound()
+{
+	TIM3->ARR = 156;
+	TIM3->CCR1 = TIM3->ARR / 2;
+	HAL_Delay(100);
+	TIM3->ARR = 111;
+	TIM3->CCR1 = TIM3->ARR / 2;
+	HAL_Delay(100);
+
+	// Setting for food eating Sound
+	TIM3->ARR = 1060;
+	TIM3->CCR1 = 0;
+}
+
+
+void LoseSound()
+{
+	TIM3->ARR = 290;
+	TIM3->CCR1 = TIM3->ARR / 2;
+	HAL_Delay(80);
+
+	TIM3->ARR = 391;
+	TIM3->CCR1 = TIM3->ARR / 2;
+	HAL_Delay(80);
+
+	TIM3->ARR = 290;
+	TIM3->CCR1 = TIM3->ARR / 2;
+	HAL_Delay(80);
+
+	TIM3->ARR = 391;
+	TIM3->CCR1 = TIM3->ARR / 2;
+	HAL_Delay(80);
+}
+
+
+void WinSound()
+{
+	TIM3->ARR = 593;
+	TIM3->CCR1 = TIM3->ARR / 2;
+	HAL_Delay(100);
+
+	TIM3->CCR1 = 0;
+	HAL_Delay(10);
+
+	TIM3->CCR1 = TIM3->ARR / 2;
+	HAL_Delay(100);
+
+	TIM3->CCR1 = 0;
+	HAL_Delay(10);
+
+	TIM3->CCR1 = TIM3->ARR / 2;
+	HAL_Delay(100);
+
+	TIM3->CCR1 = 0;
+	HAL_Delay(10);
+
+	TIM3->ARR = 767;
+	TIM3->CCR1 = TIM3->ARR / 2;
+	HAL_Delay(100);
+
+	TIM3->ARR = 593;
+	TIM3->CCR1 = TIM3->ARR / 2;
+	HAL_Delay(300);
+
+	TIM3->ARR = 508;
+	TIM3->CCR1 = TIM3->ARR / 2;
+	HAL_Delay(300);
+
+	TIM3->ARR = 1029;
+	TIM3->CCR1 = TIM3->ARR / 2;
+	HAL_Delay(300);
+}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -240,15 +415,15 @@ int main(void)
   lcd_init();
 
   // Pacman 이미지 데이터
-  char pac1[] = {0x07, 0x0F, 0x1E, 0x1C, 0x1C, 0x1E, 0x0F, 0x07};
-  char pac2[] = {0x07, 0x0F, 0x1E, 0x1C, 0x1E, 0x1F, 0x0F, 0x00};
-  char pac3[] = {0x1C, 0x1E, 0x0F, 0x07, 0x07, 0x0F, 0x1E, 0x1C};
-  char pac4[] = {0x1C, 0x1E, 0x0F, 0x07, 0x0F, 0x1F, 0x1E, 0x00};
-  char enemy[] = {0x1F, 0x15, 0x1F, 0x1F, 0x0E, 0x0A, 0x0A, 0x1B};
+  char pac1[] = {0x07,  0x0F,  0x1C,  0x18,  0x18,  0x1C,  0x0F,  0x07}; // 우 벌
+  char pac2[] = {0x00,  0x0F,  0x1F,  0x18,  0x1C,  0x1F,  0x0F,  0x00}; // 우 닫
+  char pac3[] = {0x1C,  0x1E,  0x07,  0x03,  0x03,  0x07,  0x1E,  0x1C}; // 좌 벌
+  char pac4[] = {0x00,  0x1E,  0x1F,  0x03,  0x07,  0x1F,  0x1E,  0x00}; // 좌 닫
+  char enemy[] = {0x0E,  0x1F,  0x15,  0x1F,  0x0E,  0x15,  0x15,  0x15}; // 문어
 
 
-  // Pacman 이미지를 LCD에 출력
-  lcd_send_cmd(0x40); // LCD 화면의 DDRAM 주소를 설정하여 화면의 원하는 위치에 출력, DDRAM Address 2열 1번이 0x00 또는 0x40
+  // Pacman 이미지를 LCD의 DDRAM에 저장
+  lcd_send_cmd(0x40); // LCD 화면의 DDRAM 주소를 설정하여 화면의 원하는 위치에 출력, DDRAM Address 2열 1번의 주소가 0x40
   for(int i = 0 ; i < 8 ; i++)
 	  lcd_send_data(pac1[i]);
 
@@ -294,27 +469,28 @@ int main(void)
   lcd_send_string("LEVEL 1");
   HAL_Delay(500);
 
-  lcd_put_cur(0, 9);
+  lcd_put_cur(1, 9);
   lcd_send_string("Start!");
   HAL_Delay(800);
 
 
   // Pacman Init
-  Charactor pacman;
-  memset(&pacman, 0, sizeof(pacman));
-  pacman.prey = 31;
+  Character pacman;
+  memset(&pacman, 0, sizeof(pacman)); // pacman 구조체를 0으로 초기화한다(모든 멤버 변수를 0으로 설정)
+  pacman.food = 31;
 
   // Enemy Init
   Enemy octopus;
-  memset(&octopos, 0, sizeof(octopus));
+  memset(&octopus, 0, sizeof(octopus)); // octopus 구조체를 0으로 초기화한다(모든 멤버 변수를 0으로 설정)
   octopus.image_num = 4;
-  octopus.row = 1;
+  octopus.row = 1; // 처음 시작 위치
   octopus.col = 8;
 
 
   lcd_clear();
   lcd_put_cur(pacman.row, pacman.col);
   lcd_send_data(pacman.image_num);
+  TIM2->PSC = 8000; // 문어 속도를 좀 더 빠르게 설정
 
 
   /* USER CODE END 2 */
@@ -326,6 +502,31 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	if(game_status == ING)
+	{
+		Move_Pacman(&pacman, Dir_Joystick());
+		LCD_Display_Charactor(&pacman);
+		Move_Enemy(&octopus, pacman, clk_pulse);
+		LCD_Display_Enemy(octopus);
+
+		game_status = GameStatus(&pacman, &octopus);
+
+		HAL_Delay(100);
+//		HAL_Delay(10);
+		TIM3->CCR1 = 0;
+	}
+	else if(game_status == WIN)
+	{
+		lcd_put_cur(0, 4);
+		lcd_send_string("YOU WIN");
+		lcd_put_cur(1, 0);
+		lcd_send_string("Congratulations!");
+	}
+	else if(game_status == OVER)
+	{
+		lcd_put_cur(0, 4);
+		lcd_send_string("YOU LOSE");
+	}
   }
   /* USER CODE END 3 */
 }
