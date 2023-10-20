@@ -4,4 +4,4 @@
 //org.eclipse.debug.core.PREFERRED_DELEGATES/org.eclipse.cdt.launch.postmortemLaunchType=org.eclipse.cdt.dsf.gdb.launch.coreCLaunch,debug,;
 //org.eclipse.debug.core.PREFERRED_DELEGATES/org.eclipse.cdt.launch.remoteApplicationLaunchType=org.eclipse.rse.remotecdt.dsf.debug,debug,;
 eclipse.preferences.version=1
-prefWatchExpressions=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<watchExpressions/>\r\n
+prefWatchExpressions=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<watchExpressions>\r\n    <expression enabled\="true" text\="distance_L"/>\r\n    <expression enabled\="true" text\="distance_M"/>\r\n    <expression enabled\="true" text\="distance_R"/>\r\n    <expression enabled\="true" text\="INC_Value_L1"/>\r\n    <expression enabled\="true" text\="INC_Value_L2"/>\r\n    <expression enabled\="true" text\="INC_Value_M1"/>\r\n    <expression enabled\="true" text\="INC_Value_M2"/>\r\n    <expression enabled\="true" text\="INC_Value_R1"/>\r\n    <expression enabled\="true" text\="INC_Value_R2"/>\r\n</watchExpressions>\r\n

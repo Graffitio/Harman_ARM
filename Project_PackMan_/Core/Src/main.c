@@ -354,7 +354,7 @@ void WinSound()
 
 	TIM3->ARR = 767;
 	TIM3->CCR1 = TIM3->ARR / 2;
-	HAL_Delay(100);
+	HAL_Delay(300);
 
 	TIM3->ARR = 593;
 	TIM3->CCR1 = TIM3->ARR / 2;
@@ -513,7 +513,7 @@ int main(void)
 		game_status = GameStatus(&pacman, &octopus);
 
 //		HAL_Delay(100);
-		HAL_Delay(130);
+		HAL_Delay(45);
 		TIM3->CCR1 = 0;
 	}
 	else if(game_status == WIN)

@@ -1,10 +1,10 @@
-20:45:01 **** Incremental Build of configuration Debug for project Project_PackMan_ ****
+20:51:50 **** Incremental Build of configuration Debug for project Project_PackMan_ ****
 make -j4 all 
 arm-none-eabi-size   Project_PackMan_.elf 
    text	   data	    bss	    dec	    hex	filename
-  26952	    116	   2388	  29456	   7310	Project_PackMan_.elf
+  26944	    116	   2388	  29448	   7308	Project_PackMan_.elf
 Finished building: default.size.stdout
  
 
-20:45:02 Build Finished. 0 errors, 0 warnings. (took 777ms)
+20:51:51 Build Finished. 0 errors, 0 warnings. (took 775ms)
 

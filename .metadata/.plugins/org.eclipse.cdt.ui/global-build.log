@@ -1,50 +1,48 @@
-20:44:58 **** Incremental Build of configuration Debug for project Project_PackMan_ ****
-make -j4 all 
+16:54:08 **** Incremental Build of configuration Debug for project Project_Car ****
+make -j12 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F411xE -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'GameStatus':
-../Core/Src/main.c:233:17: warning: implicit declaration of function 'LoseSound' [-Wimplicit-function-declaration]
-  233 |                 LoseSound();
-      |                 ^~~~~~~~~
-../Core/Src/main.c:238:17: warning: implicit declaration of function 'WinSound' [-Wimplicit-function-declaration]
-  238 |                 WinSound();
-      |                 ^~~~~~~~
-../Core/Src/main.c:246:17: warning: implicit declaration of function 'LevelupInit' [-Wimplicit-function-declaration]
-  246 |                 LevelupInit(character, enemy);
-      |                 ^~~~~~~~~~~
-../Core/Src/main.c: At top level:
-../Core/Src/main.c:275:6: warning: conflicting types for 'LevelupInit'; have 'void(Character *, Enemy *)'
-  275 | void LevelupInit(Character *character, Enemy *enemy)
-      |      ^~~~~~~~~~~
-../Core/Src/main.c:246:17: note: previous implicit declaration of 'LevelupInit' with type 'void(Character *, Enemy *)'
-  246 |                 LevelupInit(character, enemy);
-      |                 ^~~~~~~~~~~
-../Core/Src/main.c:314:6: warning: conflicting types for 'LoseSound'; have 'void()'
-  314 | void LoseSound()
-      |      ^~~~~~~~~
-../Core/Src/main.c:233:17: note: previous implicit declaration of 'LoseSound' with type 'void()'
-  233 |                 LoseSound();
-      |                 ^~~~~~~~~
-../Core/Src/main.c:334:6: warning: conflicting types for 'WinSound'; have 'void()'
-  334 | void WinSound()
-      |      ^~~~~~~~
-../Core/Src/main.c:238:17: note: previous implicit declaration of 'WinSound' with type 'void()'
-  238 |                 WinSound();
-      |                 ^~~~~~~~
-arm-none-eabi-gcc -o "Project_PackMan_.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Ian_Jung\workplace\Harman_ARM\Project_PackMan_\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Project_PackMan_.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Project_PackMan_.elf
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:237:33: warning: pointer targets in passing argument 2 of 'HAL_UART_Receive_DMA' differ in signedness [-Wpointer-sign]
+  237 |   HAL_UART_Receive_DMA(&huart1, buf, sizeof(buf));
+      |                                 ^~~
+      |                                 |
+      |                                 char *
+In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
+                 from ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:29,
+                 from ../Core/Inc/main.h:30,
+                 from ../Core/Src/main.c:20:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:727:76: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+  727 | HAL_StatusTypeDef HAL_UART_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+      |                                                                   ~~~~~~~~~^~~~~
+arm-none-eabi-gcc -o "Project_Car.elf" @"objects.list"   -mcpu=cortex-m4 -T"F:\Ian_Jung\workplace\Harman_ARM\Project_Car\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Project_Car.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Project_Car.elf
  
-arm-none-eabi-size   Project_PackMan_.elf 
-arm-none-eabi-objdump -h -S  Project_PackMan_.elf  > "Project_PackMan_.list"
+arm-none-eabi-size   Project_Car.elf 
+arm-none-eabi-objdump -h -S  Project_Car.elf  > "Project_Car.list"
    text	   data	    bss	    dec	    hex	filename
-  26952	    116	   2388	  29456	   7310	Project_PackMan_.elf
+  22636	    112	   2336	  25084	   61fc	Project_Car.elf
 Finished building: default.size.stdout
  
-Finished building: Project_PackMan_.list
+Finished building: Project_Car.list
  
-20:45:01 **** Incremental Build of configuration Debug for project Project_PackMan_ ****
-make -j4 all 
-arm-none-eabi-size   Project_PackMan_.elf 
+16:54:11 **** Incremental Build of configuration Debug for project Project_Car ****
+make -j12 all 
+arm-none-eabi-size   Project_Car.elf 
    text	   data	    bss	    dec	    hex	filename
-  26952	    116	   2388	  29456	   7310	Project_PackMan_.elf
+  22636	    112	   2336	  25084	   61fc	Project_Car.elf
+Finished building: default.size.stdout
+ 
+16:54:19 **** Incremental Build of configuration Debug for project Project_Car ****
+make -j12 all 
+arm-none-eabi-size   Project_Car.elf 
+   text	   data	    bss	    dec	    hex	filename
+  22636	    112	   2336	  25084	   61fc	Project_Car.elf
+Finished building: default.size.stdout
+ 
+16:56:17 **** Incremental Build of configuration Debug for project Project_Car ****
+make -j12 all 
+arm-none-eabi-size   Project_Car.elf 
+   text	   data	    bss	    dec	    hex	filename
+  22636	    112	   2336	  25084	   61fc	Project_Car.elf
 Finished building: default.size.stdout
  

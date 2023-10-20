@@ -62,7 +62,7 @@ int __io_putchar(int ch)
 
 int __io_getchar(void)
 {
-	int ch; // bufì— ì €ì¥ë¨ê³¼ ë™ì‹œì—, chì—ë„ ì €ì¥
+	int ch; // buf?— ???¥?¨ê³? ?™?‹œ?—, ch?—?„ ???¥
 	while(1)
 	{
 		if(HAL_UART_Receive(&huart2, &ch, 1, 50) == HAL_OK)
@@ -149,9 +149,9 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
+  MX_USART2_UART_Init();
   MX_TIM10_Init();
   MX_TIM11_Init();
-  MX_USART2_UART_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   printf("Program Start!\r\n");
@@ -178,7 +178,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-//		printf("Press Direction key and [Enter]....\r\n"); // ìˆ«ì í‚¤ë¥¼ ì…ë ¥í•˜ë¼ê³  í”„ë¡¬í¬íŠ¸ ë‚´ë³´ë‚´ ì¤Œ.
+//		printf("Press Direction key and [Enter]....\r\n"); // ?ˆ«? ?‚¤ë¥? ?…? ¥?•˜?¼ê³? ?”„ë¡¬í¬?Š¸ ?‚´ë³´ë‚´ ì¤?.
 //		scanf("%c", &i);
 
 	if(buf[0] != 0)
