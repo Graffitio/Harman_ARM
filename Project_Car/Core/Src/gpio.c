@@ -38,8 +38,6 @@
         * Output
         * EVENT_OUT
         * EXTI
-     PA2   ------> USART2_TX
-     PA3   ------> USART2_RX
 */
 void MX_GPIO_Init(void)
 {
@@ -53,32 +51,30 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, TRIG_R_Pin|TRIG_M_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, Right_Front_Pin|Right_Back_Pin|Left_Back_Pin|Left_Front_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(TRIG_L_GPIO_Port, TRIG_L_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(TRIG_GPIO_Port, TRIG_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : PAPin PAPin */
-  GPIO_InitStruct.Pin = USART_TX_Pin|USART_RX_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  /*Configure GPIO pin : PtPin */
+  GPIO_InitStruct.Pin = Blue_button_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  HAL_GPIO_Init(Blue_button_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PCPin PCPin */
-  GPIO_InitStruct.Pin = TRIG_R_Pin|TRIG_M_Pin;
+  /*Configure GPIO pins : PCPin PCPin PCPin PCPin */
+  GPIO_InitStruct.Pin = Right_Front_Pin|Right_Back_Pin|Left_Back_Pin|Left_Front_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PtPin */
-  GPIO_InitStruct.Pin = TRIG_L_Pin;
+  GPIO_InitStruct.Pin = TRIG_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  HAL_GPIO_Init(TRIG_L_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(TRIG_GPIO_Port, &GPIO_InitStruct);
 
 }
 

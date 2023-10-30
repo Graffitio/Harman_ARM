@@ -57,16 +57,20 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define Blue_button_Pin GPIO_PIN_13
+#define Blue_button_GPIO_Port GPIOC
+#define Right_Front_Pin GPIO_PIN_0
+#define Right_Front_GPIO_Port GPIOC
+#define Right_Back_Pin GPIO_PIN_1
+#define Right_Back_GPIO_Port GPIOC
 #define USART_TX_Pin GPIO_PIN_2
 #define USART_TX_GPIO_Port GPIOA
-#define USART_RX_Pin GPIO_PIN_3
-#define USART_RX_GPIO_Port GPIOA
-#define TRIG_R_Pin GPIO_PIN_4
-#define TRIG_R_GPIO_Port GPIOC
-#define TRIG_M_Pin GPIO_PIN_5
-#define TRIG_M_GPIO_Port GPIOC
-#define TRIG_L_Pin GPIO_PIN_2
-#define TRIG_L_GPIO_Port GPIOB
+#define TRIG_Pin GPIO_PIN_2
+#define TRIG_GPIO_Port GPIOB
+#define Left_Back_Pin GPIO_PIN_6
+#define Left_Back_GPIO_Port GPIOC
+#define Left_Front_Pin GPIO_PIN_8
+#define Left_Front_GPIO_Port GPIOC
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14

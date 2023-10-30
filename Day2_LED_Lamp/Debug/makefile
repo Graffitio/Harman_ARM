@@ -60,8 +60,8 @@ all: main-build
 main-build: Day2_LED_Lamp.elf secondary-outputs
 
 # Tool invocations
-Day2_LED_Lamp.elf Day2_LED_Lamp.map: $(OBJS) $(USER_OBJS) D:\Ian_Jung\workplace\STM32\Day2_LED_Lamp\STM32F411RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Day2_LED_Lamp.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\Ian_Jung\workplace\STM32\Day2_LED_Lamp\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Day2_LED_Lamp.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Day2_LED_Lamp.elf Day2_LED_Lamp.map: $(OBJS) $(USER_OBJS) F:\Ian_Jung\workplace\Harman_ARM\Day2_LED_Lamp\STM32F411RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Day2_LED_Lamp.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"F:\Ian_Jung\workplace\Harman_ARM\Day2_LED_Lamp\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Day2_LED_Lamp.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

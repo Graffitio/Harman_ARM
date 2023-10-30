@@ -18,7 +18,9 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "cmsis_os.h"
 #include "dma.h"
+#include "i2c.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -28,6 +30,8 @@
 
 #include "delay.h"
 #include "stdio.h"
+#include "ultrasonic.h"
+#include "I2C_LCD.h"
 
 /* USER CODE END Includes */
 
@@ -38,12 +42,14 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define TRIG_L_PORT GPIOB
-#define TRIG_L_PIN GPIO_PIN_2
-#define TRIG_M_PORT GPIOC
-#define TRIG_M_PIN GPIO_PIN_5
-#define TRIG_R_PORT GPIOC
-#define TRIG_R_PIN GPIO_PIN_4
+//#define TRIG_L_PORT GPIOB
+//#define TRIG_L_PIN GPIO_PIN_2
+//#define TRIG_M_PORT GPIOC
+//#define TRIG_M_PIN GPIO_PIN_5
+//#define TRIG_R_PORT GPIOC
+//#define TRIG_R_PIN GPIO_PIN_4
+//#define TRIG_PORT GPIOB
+//#define TRIG_PIN GPIO_PIN_2
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -54,141 +60,215 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
-uint32_t INC_Value_L1 = 0; // Echo High?��?�� ?���?
-uint32_t INC_Value_L2 = 0; // Echo Low ?��?�� ?���?
-uint32_t echoTime_L = 0; // Distance(?���? 거리)�? 측정?���? ?��?�� Echo Time()
-uint8_t captureFlag_L = 0;
-uint8_t distance_L = 0;
-
-uint32_t INC_Value_M1 = 0; // Echo High?��?�� ?���?
-uint32_t INC_Value_M2 = 0; // Echo Low ?��?�� ?���?
-uint32_t echoTime_M = 0; // Distance(?���? 거리)�? 측정?���? ?��?�� Echo Time()
-uint8_t captureFlag_M = 0;
-uint8_t distance_M = 0;
-
-uint32_t INC_Value_R1 = 0; // Echo High?��?�� ?���?
-uint32_t INC_Value_R2 = 0; // Echo Low ?��?�� ?���?
-uint32_t echoTime_R = 0; // Distance(?���? 거리)�? 측정?���? ?��?�� Echo Time()
-uint8_t captureFlag_R = 0;
-uint8_t distance_R = 0;
-
-char buf[1];
+//
+//uint32_t INC_Value_L1 = 0; // Echo High?��?�� ?���?????????????
+//uint32_t INC_Value_L2 = 0; // Echo Low ?��?�� ?���?????????????
+//uint32_t echoTime_L = 0; // Distance(?���????????????? 거리)�????????????? 측정?���????????????? ?��?�� Echo Time()
+//uint8_t captureFlag_L = 0;
+//uint8_t distance_L = 0;
+//
+//uint32_t INC_Value_M1 = 0; // Echo High?��?�� ?���?????????????
+//uint32_t INC_Value_M2 = 0; // Echo Low ?��?�� ?���?????????????
+//uint32_t echoTime_M = 0; // Distance(?���????????????? 거리)�????????????? 측정?���????????????? ?��?�� Echo Time()
+//uint8_t captureFlag_M = 0;
+//uint8_t distance_M = 0;
+//
+//uint32_t INC_Value_R1 = 0; // Echo High?��?�� ?���?????????????
+//uint32_t INC_Value_R2 = 0; // Echo Low ?��?�� ?���?????????????
+//uint32_t echoTime_R = 0; // Distance(?���????????????? 거리)�????????????? 측정?���????????????? ?��?�� Echo Time()
+//uint8_t captureFlag_R = 0;
+//uint8_t distance_R = 0;
+//
+//char buf[1];
 
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
+//
+//int __io_putchar(int ch)
+//{
+//	HAL_UART_Transmit(&huart2, &ch, 1, 50);
+//	return ch;
+//}
+//
+//int __io_getchar(void)
+//{
+//	int ch; // buf?�� ???��?���????????????? ?��?��?��, ch?��?�� ???��
+//	while(1)
+//	{
+//		if(HAL_UART_Receive(&huart2, &ch, 1, 50) == HAL_OK)
+//			break;
+//	}
+//	HAL_UART_Transmit(&huart2, &ch, 1, 50);
+//
+//	return ch;
+//}
 
-void HCSR04_Read(void)
-{
-	HAL_GPIO_WritePin(TRIG_L_PORT, TRIG_L_PIN, 1); // Trig Pin High
-	HAL_GPIO_WritePin(TRIG_M_PORT, TRIG_M_PIN, 1); // Trig Pin High
-	HAL_GPIO_WritePin(TRIG_R_PORT, TRIG_R_PIN, 1); // Trig Pin High
-	delay_us(10);							   // Delay 10us
-	HAL_GPIO_WritePin(TRIG_L_PORT, TRIG_L_PIN, 0); // Trig Pin High
-	HAL_GPIO_WritePin(TRIG_M_PORT, TRIG_M_PIN, 0); // Trig Pin High
-	HAL_GPIO_WritePin(TRIG_R_PORT, TRIG_R_PIN, 0); // Trig Pin High
+//void HCSR04_Read(void)
+//{
+////	HAL_GPIO_WritePin(TRIG_L_PORT, TRIG_L_PIN, 1); // Trig Pin High
+////	HAL_GPIO_WritePin(TRIG_M_PORT, TRIG_M_PIN, 1); // Trig Pin High
+////	HAL_GPIO_WritePin(TRIG_R_PORT, TRIG_R_PIN, 1); // Trig Pin High
+//	HAL_GPIO_WritePin(TRIG_PORT, TRIG_PIN, 1); // Trig Pin High
+//	delay_us(10);							   // Delay 10us
+//	HAL_GPIO_WritePin(TRIG_PORT, TRIG_PIN, 0); // Trig Pin High
+////	HAL_GPIO_WritePin(TRIG_L_PORT, TRIG_L_PIN, 0); // Trig Pin High
+////	HAL_GPIO_WritePin(TRIG_M_PORT, TRIG_M_PIN, 0); // Trig Pin High
+////	HAL_GPIO_WritePin(TRIG_R_PORT, TRIG_R_PIN, 0); // Trig Pin High
+//
+//	__HAL_TIM_ENABLE_IT(&htim3, TIM_IT_CC1); // Set Timer Enable
+//	__HAL_TIM_ENABLE_IT(&htim3, TIM_IT_CC2); // Set Timer Enable
+//	__HAL_TIM_ENABLE_IT(&htim3, TIM_IT_CC3); // Set Timer Enable
+//}
+//
+//void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
+//{
+//	if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1) // 만약 ?��?��?��?�� ?��?�� 채널?���?????????????,(?��리�? 1�????????????? 채널?�� ?��기로 ?��?��)
+//	{
+//		if(captureFlag_L == 0) // �????????????? 번째 캡쳐�????????????? ?���????????????? ?��?��?���?????????????,(Falling Edge�????????????? 발생?���????????????? ?��?��?���?????????????,)
+//		{
+//			INC_Value_L1 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1); // �????????????? 번째 Value�????????????? ?��?��?��.
+//			captureFlag_L = 1; // �????????????? 번째 캡쳐 ?���?????????????
+//
+//			// Polarity �?????????????�?????????????(Rising -> Falling)
+//			__HAL_TIM_SET_CAPTUREPOLARITY(htim, TIM_CHANNEL_1, TIM_INPUTCHANNELPOLARITY_FALLING); // Echo Falling?�� 캡쳐?��?�� ?���?????????????�?????????????
+//		}
+//		else if(captureFlag_L == 1) // 만약 �????????????? 번�?? 캡쳐�????????????? ?���????????????? ?��료됐?���?????????????,
+//		{
+//			INC_Value_L2 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1);
+////			__HAL_TIM_SET_COUNTER(&htim3, 0); // reset Counter
+//
+//			if(INC_Value_L2 > INC_Value_L1)
+//			{
+//				echoTime_L = INC_Value_L2 - INC_Value_L1;
+//			}
+//			else if(INC_Value_L1 > INC_Value_L2) // 거리�????????????? ?���????????????? 길면, INC_Value2 �????????????? Overflow?��?�� count�????????????? 0?���????????????? ?�� ?��?��?��?�� INC_Value1보다 ?��?���????????????? ?�� ?��?��.
+//			{
+//				echoTime_L = (0xffff - INC_Value_L1) + INC_Value_L2;
+//			}
+//			distance_L = echoTime_L / 58;
+//			captureFlag_L = 0;
+//
+//			__HAL_TIM_SET_CAPTUREPOLARITY(htim, TIM_CHANNEL_1, TIM_INPUTCHANNELPOLARITY_RISING); // ?��?�� Echo High�????????????? 캡쳐?��?���????????????? ?��?��
+//			__HAL_TIM_DISABLE_IT(&htim3, TIM_IT_CC1);
+//		}
+//	}
+//	if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_2) // 만약 ?��?��?��?�� ?��?�� 채널?���?????????????,(?��리�? 1�????????????? 채널?�� ?��기로 ?��?��)
+//	{
+//		if(captureFlag_M == 0) // �????????????? 번째 캡쳐�????????????? ?���????????????? ?��?��?���?????????????,(Falling Edge�????????????? 발생?���????????????? ?��?��?���?????????????,)
+//		{
+//			INC_Value_M1 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_2); // �????????????? 번째 Value�????????????? ?��?��?��.
+//			captureFlag_M = 1; // �????????????? 번째 캡쳐 ?���?????????????
+//
+//			// Polarity �?????????????�?????????????(Rising -> Falling)
+//			__HAL_TIM_SET_CAPTUREPOLARITY(htim, TIM_CHANNEL_2, TIM_INPUTCHANNELPOLARITY_FALLING); // Echo Falling?�� 캡쳐?��?�� ?���?????????????�?????????????
+//		}
+//		else if(captureFlag_M == 1) // 만약 �????????????? 번�?? 캡쳐�????????????? ?���????????????? ?��료됐?���?????????????,
+//		{
+//			INC_Value_M2 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_2);
+////			__HAL_TIM_SET_COUNTER(&htim3, 0); // reset Counter
+//
+//			if(INC_Value_M2 > INC_Value_M1)
+//			{
+//				echoTime_M = INC_Value_M2 - INC_Value_M1;
+//			}
+//			else if(INC_Value_M1 > INC_Value_M2) // 거리�????????????? ?���????????????? 길면, INC_Value2 �????????????? Overflow?��?�� count�????????????? 0?���????????????? ?�� ?��?��?��?�� INC_Value1보다 ?��?���????????????? ?�� ?��?��.
+//			{
+//				echoTime_M = (0xffff - INC_Value_M1) + INC_Value_M2;
+//			}
+//			distance_M = echoTime_M / 58;
+//			captureFlag_M = 0;
+//
+//			__HAL_TIM_SET_CAPTUREPOLARITY(htim, TIM_CHANNEL_2, TIM_INPUTCHANNELPOLARITY_RISING); // ?��?�� Echo High�????????????? 캡쳐?��?���????????????? ?��?��
+//			__HAL_TIM_DISABLE_IT(&htim3, TIM_IT_CC2);
+//		}
+//	}
+//	if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_3) // 만약 ?��?��?��?�� ?��?�� 채널?���?????????????,(?��리�? 1�????????????? 채널?�� ?��기로 ?��?��)
+//	{
+//		if(captureFlag_R == 0) // �????????????? 번째 캡쳐�????????????? ?���????????????? ?��?��?���?????????????,(Falling Edge�????????????? 발생?���????????????? ?��?��?���?????????????,)
+//		{
+//			INC_Value_R1 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_3); // �????????????? 번째 Value�????????????? ?��?��?��.
+//			captureFlag_R = 1; // �????????????? 번째 캡쳐 ?���?????????????
+//
+//			// Polarity �?????????????�?????????????(Rising -> Falling)
+//			__HAL_TIM_SET_CAPTUREPOLARITY(htim, TIM_CHANNEL_3, TIM_INPUTCHANNELPOLARITY_FALLING); // Echo Falling?�� 캡쳐?��?�� ?���?????????????�?????????????
+//		}
+//		else if(captureFlag_R == 1) // 만약 �????????????? 번�?? 캡쳐�????????????? ?���????????????? ?��료됐?���?????????????,
+//		{
+//			INC_Value_R2 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_3);
+////			__HAL_TIM_SET_COUNTER(&htim3, 0); // reset Counter
+//
+//			if(INC_Value_R2 > INC_Value_R1)
+//			{
+//				echoTime_R = INC_Value_R2 - INC_Value_R1;
+//			}
+//			else if(INC_Value_R1 > INC_Value_R2) // 거리�????????????? ?���????????????? 길면, INC_Value2 �????????????? Overflow?��?�� count�????????????? 0?���????????????? ?�� ?��?��?��?�� INC_Value1보다 ?��?���????????????? ?�� ?��?��.
+//			{
+//				echoTime_R = (0xffff - INC_Value_R1) + INC_Value_R2;
+//			}
+//			distance_R = echoTime_R / 58;
+//			captureFlag_R = 0;
+//
+//			__HAL_TIM_SET_CAPTUREPOLARITY(htim, TIM_CHANNEL_3, TIM_INPUTCHANNELPOLARITY_RISING); // ?��?�� Echo High�????????????? 캡쳐?��?���????????????? ?��?��
+//			__HAL_TIM_DISABLE_IT(&htim3, TIM_IT_CC3);
+//		}
+//	}
+////	__HAL_TIM_SET_COUNTER(&htim3, 0); // reset Counter
+//}
 
-	__HAL_TIM_ENABLE_IT(&htim3, TIM_IT_CC1); // Set Timer Enable
-	__HAL_TIM_ENABLE_IT(&htim3, TIM_IT_CC2); // Set Timer Enable
-	__HAL_TIM_ENABLE_IT(&htim3, TIM_IT_CC3); // Set Timer Enable
-}
+//void Forward()
+//{
+//	HAL_GPIO_WritePin(Right_Front_GPIO_Port, Right_Front_Pin, 1);
+//	HAL_GPIO_WritePin(Right_Back_GPIO_Port, Right_Back_Pin, 0);
+//	HAL_GPIO_WritePin(Left_Front_GPIO_Port, Left_Front_Pin, 0);
+//	HAL_GPIO_WritePin(Left_Back_GPIO_Port, Left_Back_Pin, 1);
+//}
+//
+//void Backward()
+//{
+//	HAL_GPIO_WritePin(Right_Front_GPIO_Port, Right_Front_Pin, 0);
+//	HAL_GPIO_WritePin(Right_Back_GPIO_Port, Right_Back_Pin, 1);
+//	HAL_GPIO_WritePin(Left_Front_GPIO_Port, Left_Front_Pin, 1);
+//	HAL_GPIO_WritePin(Left_Back_GPIO_Port, Left_Back_Pin, 0);
+//}
 
-void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
-{
-	if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1) // 만약 ?��?��?��?�� ?��?�� 채널?���?,(?��리�? 1�? 채널?�� ?��기로 ?��?��)
-	{
-		if(captureFlag_L == 0) // �? 번째 캡쳐�? ?���? ?��?��?���?,(Falling Edge�? 발생?���? ?��?��?���?,)
-		{
-			INC_Value_L1 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1); // �? 번째 Value�? ?��?��?��.
-			captureFlag_L = 1; // �? 번째 캡쳐 ?���?
+//void cal_distance()
+//{
+//	if(INC_Value_L2 > INC_Value_L1)
+//	{
+//		echoTime_L = INC_Value_L2 - INC_Value_L1;
+//	}
+//	else if(INC_Value_L1 > INC_Value_L2) // 거리�????????????? ?���????????????? 길면, INC_Value2 �????????????? Overflow?��?�� count�????????????? 0?���????????????? ?�� ?��?��?��?�� INC_Value1보다 ?��?���????????????? ?�� ?��?��.
+//	{
+//		echoTime_L = (0xffff - INC_Value_L1) + INC_Value_L2;
+//	}
+//
+//	if(INC_Value_M2 > INC_Value_M1)
+//	{
+//		echoTime_M = INC_Value_M2 - INC_Value_M1;
+//	}
+//	else if(INC_Value_M1 > INC_Value_M2) // 거리�????????????? ?���????????????? 길면, INC_Value2 �????????????? Overflow?��?�� count�????????????? 0?���????????????? ?�� ?��?��?��?�� INC_Value1보다 ?��?���????????????? ?�� ?��?��.
+//	{
+//		echoTime_M = (0xffff - INC_Value_M1) + INC_Value_M2;
+//	}
+//
+//	if(INC_Value_R2 > INC_Value_R1)
+//	{
+//		echoTime_R = INC_Value_R2 - INC_Value_R1;
+//	}
+//	else if(INC_Value_R1 > INC_Value_R2) // 거리�????????????? ?���????????????? 길면, INC_Value2 �????????????? Overflow?��?�� count�????????????? 0?���????????????? ?�� ?��?��?��?�� INC_Value1보다 ?��?���????????????? ?�� ?��?��.
+//	{
+//		echoTime_R = (0xffff - INC_Value_R1) + INC_Value_R2;
+//	}
+//
+//	distance_L = echoTime_L / 58;
+//	distance_M = echoTime_M / 58;
+//	distance_R = echoTime_R / 58;
+//}
 
-			// Polarity �?�?(Rising -> Falling)
-			__HAL_TIM_SET_CAPTUREPOLARITY(htim, TIM_CHANNEL_1, TIM_INPUTCHANNELPOLARITY_FALLING); // Echo Falling?�� 캡쳐?��?�� ?���?�?
-		}
-		else if(captureFlag_L == 1) // 만약 �? 번�?? 캡쳐�? ?���? ?��료됐?���?,
-		{
-			INC_Value_L2 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1);
-			__HAL_TIM_SET_COUNTER(&htim3, 0); // reset Counter
-
-			if(INC_Value_L2 > INC_Value_L1)
-			{
-				echoTime_L = INC_Value_L2 - INC_Value_L1;
-			}
-			else if(INC_Value_L1 > INC_Value_L2) // 거리�? ?���? 길면, INC_Value2 �? Overflow?��?�� count�? 0?���? ?�� ?��?��?��?�� INC_Value1보다 ?��?���? ?�� ?��?��.
-			{
-				echoTime_L = (0xffff - INC_Value_L1) + INC_Value_L2;
-			}
-			distance_L = echoTime_L / 58;
-			captureFlag_L = 0;
-
-			__HAL_TIM_SET_CAPTUREPOLARITY(htim, TIM_CHANNEL_1, TIM_INPUTCHANNELPOLARITY_RISING); // ?��?�� Echo High�? 캡쳐?��?���? ?��?��
-			__HAL_TIM_DISABLE_IT(&htim3, TIM_IT_CC1);
-		}
-	}
-	if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_2) // 만약 ?��?��?��?�� ?��?�� 채널?���?,(?��리�? 1�? 채널?�� ?��기로 ?��?��)
-	{
-		if(captureFlag_M == 0) // �? 번째 캡쳐�? ?���? ?��?��?���?,(Falling Edge�? 발생?���? ?��?��?���?,)
-		{
-			INC_Value_M1 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_2); // �? 번째 Value�? ?��?��?��.
-			captureFlag_M = 1; // �? 번째 캡쳐 ?���?
-
-			// Polarity �?�?(Rising -> Falling)
-			__HAL_TIM_SET_CAPTUREPOLARITY(htim, TIM_CHANNEL_2, TIM_INPUTCHANNELPOLARITY_FALLING); // Echo Falling?�� 캡쳐?��?�� ?���?�?
-		}
-		else if(captureFlag_M == 1) // 만약 �? 번�?? 캡쳐�? ?���? ?��료됐?���?,
-		{
-			INC_Value_M2 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_2);
-			__HAL_TIM_SET_COUNTER(&htim3, 0); // reset Counter
-
-			if(INC_Value_M2 > INC_Value_M1)
-			{
-				echoTime_M = INC_Value_M2 - INC_Value_M1;
-			}
-			else if(INC_Value_M1 > INC_Value_M2) // 거리�? ?���? 길면, INC_Value2 �? Overflow?��?�� count�? 0?���? ?�� ?��?��?��?�� INC_Value1보다 ?��?���? ?�� ?��?��.
-			{
-				echoTime_M = (0xffff - INC_Value_M1) + INC_Value_M2;
-			}
-			distance_M = echoTime_M / 58;
-			captureFlag_M = 0;
-
-			__HAL_TIM_SET_CAPTUREPOLARITY(htim, TIM_CHANNEL_2, TIM_INPUTCHANNELPOLARITY_RISING); // ?��?�� Echo High�? 캡쳐?��?���? ?��?��
-			__HAL_TIM_DISABLE_IT(&htim3, TIM_IT_CC2);
-		}
-	}
-	if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_3) // 만약 ?��?��?��?�� ?��?�� 채널?���?,(?��리�? 1�? 채널?�� ?��기로 ?��?��)
-	{
-		if(captureFlag_R == 0) // �? 번째 캡쳐�? ?���? ?��?��?���?,(Falling Edge�? 발생?���? ?��?��?���?,)
-		{
-			INC_Value_R1 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_3); // �? 번째 Value�? ?��?��?��.
-			captureFlag_R = 1; // �? 번째 캡쳐 ?���?
-
-			// Polarity �?�?(Rising -> Falling)
-			__HAL_TIM_SET_CAPTUREPOLARITY(htim, TIM_CHANNEL_3, TIM_INPUTCHANNELPOLARITY_FALLING); // Echo Falling?�� 캡쳐?��?�� ?���?�?
-		}
-		else if(captureFlag_R == 1) // 만약 �? 번�?? 캡쳐�? ?���? ?��료됐?���?,
-		{
-			INC_Value_R2 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_3);
-			__HAL_TIM_SET_COUNTER(&htim3, 0); // reset Counter
-
-			if(INC_Value_R2 > INC_Value_R1)
-			{
-				echoTime_R = INC_Value_R2 - INC_Value_R1;
-			}
-			else if(INC_Value_R1 > INC_Value_R2) // 거리�? ?���? 길면, INC_Value2 �? Overflow?��?�� count�? 0?���? ?�� ?��?��?��?�� INC_Value1보다 ?��?���? ?�� ?��?��.
-			{
-				echoTime_R = (0xffff - INC_Value_R1) + INC_Value_R2;
-			}
-			distance_R = echoTime_R / 58;
-			captureFlag_R = 0;
-
-			__HAL_TIM_SET_CAPTUREPOLARITY(htim, TIM_CHANNEL_3, TIM_INPUTCHANNELPOLARITY_RISING); // ?��?�� Echo High�? 캡쳐?��?���? ?��?��
-			__HAL_TIM_DISABLE_IT(&htim3, TIM_IT_CC3);
-		}
-	}
-}
 
 /* USER CODE END PFP */
 
@@ -230,13 +310,28 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM10_Init();
   MX_TIM11_Init();
+  MX_USART2_UART_Init();
+  MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-  HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_1);
-  HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_2);
-  HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_3);
-  HAL_UART_Receive_DMA(&huart1, buf, sizeof(buf));
+//  HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_1);
+//  HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_2);
+//  HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_3);
+////  HAL_TIM_IC_Start_DMA(&htim3, TIM_CHANNEL_1, buf_echo_1, sizeof(buf_echo_1));
+////  HAL_TIM_IC_Start_DMA(&htim3, TIM_CHANNEL_2, buf_echo_2, sizeof(buf_echo_1));
+////  HAL_TIM_IC_Start_DMA(&htim3, TIM_CHANNEL_4, buf_echo_4, sizeof(buf_echo_4));
+//  HAL_UART_Receive_DMA(&huart1, buf, sizeof(buf));
+//  HAL_UART_Receive_DMA(&huart2, buf, sizeof(buf));
+//  HAL_TIM_PWM_Start(&htim10, TIM_CHANNEL_1); // Left
+//  HAL_TIM_PWM_Start(&htim11, TIM_CHANNEL_1); // Right
   /* USER CODE END 2 */
 
+  /* Call init function for freertos objects (in freertos.c) */
+  MX_FREERTOS_Init();
+
+  /* Start scheduler */
+  osKernelStart();
+
+  /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -244,10 +339,52 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  HCSR04_Read();
-	  printf("L : %d, M : %d, R : %d\r\n", distance_L, distance_M, distance_R);
-	  HAL_Delay(200);
-  }
+//	  HCSR04_Read();
+//	  HAL_Delay(15);
+//	  cal_distance();
+//	  ultra_sonic_1(&htim3);
+//	  ultra_sonic_2(&htim3);
+//	  ultra_sonic_4(&htim3);
+//	  printf("L : %d, M : %d, R : %d\r\n", distance_L, distance_M, distance_R);
+//	  print_distance();
+//	  HAL_Delay(200);
+
+//	  if(buf[0] != 0)
+//		{
+//			switch(buf[0])
+//			{
+//			case 'w' :
+//				Forward();
+//				htim10.Instance->CCR1 = 10000; // Left
+//				htim11.Instance->CCR1 = 10000; // Right
+//				printf("Forward \r\n");
+//				break;
+//			case 's' :
+//				Backward();
+//				htim10.Instance->CCR1 = 10000; // Left
+//				htim11.Instance->CCR1 = 10000; // Right
+//				printf("Backward \r\n");
+//				break;
+//			case 'a' :
+//				Forward();
+//				htim10.Instance->CCR1 = 7500; // Left
+//				htim11.Instance->CCR1 = 10000; // Right
+//				printf("Right \r\n");
+//				break;
+//			case 'd' :
+//				Forward();
+//				htim10.Instance->CCR1 = 10000; // Left
+//				htim11.Instance->CCR1 = 7500; // Right
+//				printf("Left \r\n");
+//				break;
+//			default :
+//				printf("Error \r\n");
+//				break;
+//			}
+//		}
+//		buf[0] = 0;
+//	  	HAL_Delay(50);
+	  }
   /* USER CODE END 3 */
 }
 
@@ -299,6 +436,27 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
+
+/**
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM1 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim : TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  /* USER CODE BEGIN Callback 0 */
+
+  /* USER CODE END Callback 0 */
+  if (htim->Instance == TIM1) {
+    HAL_IncTick();
+  }
+  /* USER CODE BEGIN Callback 1 */
+
+  /* USER CODE END Callback 1 */
+}
 
 /**
   * @brief  This function is executed in case of error occurrence.

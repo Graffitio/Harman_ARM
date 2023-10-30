@@ -60,8 +60,8 @@ all: main-build
 main-build: Day3_Review.elf secondary-outputs
 
 # Tool invocations
-Day3_Review.elf Day3_Review.map: $(OBJS) $(USER_OBJS) D:\Ian_Jung\workplace\STM32\Day3_Review\STM32F411RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Day3_Review.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\Ian_Jung\workplace\STM32\Day3_Review\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Day3_Review.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Day3_Review.elf Day3_Review.map: $(OBJS) $(USER_OBJS) F:\Ian_Jung\workplace\Harman_ARM\Day3_Review\STM32F411RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Day3_Review.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"F:\Ian_Jung\workplace\Harman_ARM\Day3_Review\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Day3_Review.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

@@ -1,0 +1,4 @@
+../Core/Src/motor.c:11:6:motor_control	6
+../Core/Src/motor.c:59:6:Forward	1
+../Core/Src/motor.c:67:6:Backward	1
+../Core/Src/motor.c:75:6:Stop	1
