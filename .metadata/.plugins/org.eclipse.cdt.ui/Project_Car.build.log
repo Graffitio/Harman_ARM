@@ -1,9 +1,9 @@
-02:30:56 **** Incremental Build of configuration Debug for project Project_Car ****
+20:42:38 **** Incremental Build of configuration Debug for project Project_Car ****
 make -j12 all 
 arm-none-eabi-gcc "../Core/Src/freertos.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F411xE -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/freertos.d" -MT"Core/Src/freertos.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/freertos.o"
 ../Core/Src/freertos.c: In function '__io_putchar':
-../Core/Src/freertos.c:76:36: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
-   76 |         HAL_UART_Transmit(&huart2, &ch, 1, 200);
+../Core/Src/freertos.c:85:36: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
+   85 |         HAL_UART_Transmit(&huart2, &ch, 1, 200);
       |                                    ^~~
       |                                    |
       |                                    int *
@@ -15,8 +15,8 @@ In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
   722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
       |                                                                ~~~~~~~~~~~~~~~^~~~~
 ../Core/Src/freertos.c: In function '__io_getchar':
-../Core/Src/freertos.c:85:46: warning: passing argument 2 of 'HAL_UART_Receive' from incompatible pointer type [-Wincompatible-pointer-types]
-   85 |                 if(HAL_UART_Receive(&huart2, &ch, 1, 200) == HAL_OK)
+../Core/Src/freertos.c:94:46: warning: passing argument 2 of 'HAL_UART_Receive' from incompatible pointer type [-Wincompatible-pointer-types]
+   94 |                 if(HAL_UART_Receive(&huart2, &ch, 1, 200) == HAL_OK)
       |                                              ^~~
       |                                              |
       |                                              int *
@@ -27,8 +27,8 @@ In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:723:72: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'int *'
   723 | HAL_StatusTypeDef HAL_UART_Receive(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
       |                                                               ~~~~~~~~~^~~~~
-../Core/Src/freertos.c:88:36: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
-   88 |         HAL_UART_Transmit(&huart2, &ch, 1, 200);
+../Core/Src/freertos.c:97:36: warning: passing argument 2 of 'HAL_UART_Transmit' from incompatible pointer type [-Wincompatible-pointer-types]
+   97 |         HAL_UART_Transmit(&huart2, &ch, 1, 200);
       |                                    ^~~
       |                                    |
       |                                    int *
@@ -40,8 +40,8 @@ In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
   722 | HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, const uint8_t *pData, uint16_t Size, uint32_t Timeout);
       |                                                                ~~~~~~~~~~~~~~~^~~~~
 ../Core/Src/freertos.c: In function 'MX_FREERTOS_Init':
-../Core/Src/freertos.c:130:41: warning: pointer targets in passing argument 2 of 'HAL_UART_Receive_DMA' differ in signedness [-Wpointer-sign]
-  130 |           HAL_UART_Receive_DMA(&huart1, buf, sizeof(buf));
+../Core/Src/freertos.c:140:41: warning: pointer targets in passing argument 2 of 'HAL_UART_Receive_DMA' differ in signedness [-Wpointer-sign]
+  140 |           HAL_UART_Receive_DMA(&huart1, buf, sizeof(buf));
       |                                         ^~~
       |                                         |
       |                                         char *
@@ -52,8 +52,8 @@ In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:727:76: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
   727 | HAL_StatusTypeDef HAL_UART_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
       |                                                                   ~~~~~~~~~^~~~~
-../Core/Src/freertos.c:131:41: warning: pointer targets in passing argument 2 of 'HAL_UART_Receive_DMA' differ in signedness [-Wpointer-sign]
-  131 |           HAL_UART_Receive_DMA(&huart2, buf, sizeof(buf));
+../Core/Src/freertos.c:141:41: warning: pointer targets in passing argument 2 of 'HAL_UART_Receive_DMA' differ in signedness [-Wpointer-sign]
+  141 |           HAL_UART_Receive_DMA(&huart2, buf, sizeof(buf));
       |                                         ^~~
       |                                         |
       |                                         char *
@@ -65,26 +65,60 @@ In file included from ../Core/Inc/stm32f4xx_hal_conf.h:411,
   727 | HAL_StatusTypeDef HAL_UART_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
       |                                                                   ~~~~~~~~~^~~~~
 ../Core/Src/freertos.c: In function 'Auto_Drive01':
-../Core/Src/freertos.c:254:33: warning: passing argument 1 of 'motor_control' from incompatible pointer type [-Wincompatible-pointer-types]
-  254 |                   motor_control(&buf);
+../Core/Src/freertos.c:268:19: warning: pointer targets in passing argument 1 of 'sprintf' differ in signedness [-Wpointer-sign]
+  268 |           sprintf(dist_buff, "L%-3d M%-3d R%-3d", distance_L, distance_M, distance_R);
+      |                   ^~~~~~~~~
+      |                   |
+      |                   uint8_t * {aka unsigned char *}
+In file included from ../Core/Src/freertos.c:30:
+F:\STM32CubeIDE_1.13.2\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.win32_1.1.1.202309131626\tools\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../../arm-none-eabi/include/stdio.h:254:18: note: expected 'char * restrict' but argument is of type 'uint8_t *' {aka 'unsigned char *'}
+  254 | int     sprintf (char *__restrict, const char *__restrict, ...)
+      |                  ^
+../Core/Src/freertos.c:270:27: warning: pointer targets in passing argument 1 of 'lcd_send_string' differ in signedness [-Wpointer-sign]
+  270 |           lcd_send_string(dist_buff);
+      |                           ^~~~~~~~~
+      |                           |
+      |                           uint8_t * {aka unsigned char *}
+In file included from ../Core/Src/freertos.c:32:
+../Core/Inc/I2C_LCD.h:16:28: note: expected 'char *' but argument is of type 'uint8_t *' {aka 'unsigned char *'}
+   16 | void lcd_send_string(char *str);
+      |                      ~~~~~~^~~
+../Core/Src/freertos.c:271:25: warning: passing argument 1 of 'motor_control' from incompatible pointer type [-Wincompatible-pointer-types]
+  271 |           motor_control(&buf);
+      |                         ^~~~
+      |                         |
+      |                         char (*)[1]
+In file included from ../Core/Src/freertos.c:33:
+../Core/Inc/motor.h:20:26: note: expected 'char *' but argument is of type 'char (*)[1]'
+   20 | void motor_control(char *buf);
+      |                    ~~~~~~^~~
+../Core/Src/freertos.c:277:33: warning: passing argument 1 of 'motor_control' from incompatible pointer type [-Wincompatible-pointer-types]
+  277 |                   motor_control(&buf);
       |                                 ^~~~
       |                                 |
       |                                 char (*)[1]
 In file included from ../Core/Src/freertos.c:33:
-../Core/Inc/motor.h:18:26: note: expected 'char *' but argument is of type 'char (*)[1]'
-   18 | void motor_control(char *buf);
+../Core/Inc/motor.h:20:26: note: expected 'char *' but argument is of type 'char (*)[1]'
+   20 | void motor_control(char *buf);
       |                    ~~~~~~^~~
+../Core/Src/freertos.c:265:26: warning: unused variable 'mode_cnt' [-Wunused-variable]
+  265 |           extern uint8_t mode_cnt;
+      |                          ^~~~~~~~
+../Core/Src/freertos.c: In function 'Mode':
+../Core/Src/freertos.c:454:19: warning: unused variable 'mode_cnt' [-Wunused-variable]
+  454 |           uint8_t mode_cnt = HAL_GPIO_ReadPin(Blue_button_GPIO_Port, Blue_button_Pin);
+      |                   ^~~~~~~~
 arm-none-eabi-gcc -o "Project_Car.elf" @"objects.list"   -mcpu=cortex-m4 -T"F:\Ian_Jung\workplace\Harman_ARM\Project_Car\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Project_Car.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Project_Car.elf
  
 arm-none-eabi-size   Project_Car.elf 
 arm-none-eabi-objdump -h -S  Project_Car.elf  > "Project_Car.list"
    text	   data	    bss	    dec	    hex	filename
-  33308	    116	  19044	  52468	   ccf4	Project_Car.elf
+  35444	    116	  19084	  54644	   d574	Project_Car.elf
 Finished building: default.size.stdout
  
 Finished building: Project_Car.list
  
 
-02:30:58 Build Finished. 0 errors, 6 warnings. (took 1s.902ms)
+20:42:39 Build Finished. 0 errors, 11 warnings. (took 1s.653ms)
 

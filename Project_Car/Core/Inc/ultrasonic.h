@@ -19,6 +19,9 @@
 
 
 void HCSR04_Read(void);
+void HCSR04_Read_L(void);
+void HCSR04_Read_M(void);
+void HCSR04_Read_R(void);
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim);
 void print_distance();
 void distance_filter();

@@ -14,6 +14,8 @@
 
 void Forward();
 void Backward();
+void Left();
+void Right();
 void Stop();
 void motor_control(char *buf);
 
