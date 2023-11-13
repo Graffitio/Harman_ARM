@@ -28,6 +28,9 @@ Core/Src/freertos.o: ../Core/Src/freertos.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h \
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h \
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h \
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h \
@@ -49,7 +52,9 @@ Core/Src/freertos.o: ../Core/Src/freertos.c \
  ../Core/Inc/tim.h ../Core/Inc/main.h ../Core/Inc/delay.h \
  ../Core/Inc/tim.h ../Core/Inc/ultrasonic.h ../Core/Inc/I2C_LCD.h \
  ../Core/Inc/motor.h ../Core/Inc/usart.h ../Core/Inc/dma.h \
- ../Core/Inc/i2c.h
+ ../Core/Inc/i2c.h ../Core/Inc/adc.h ../Core/Inc/Light_cntr.h \
+ ../Core/Inc/adc.h ../Core/Inc/dma.h ../Core/Inc/gpio.h \
+ ../Core/Inc/delay.h ../Core/Inc/Auto_Drive.h
 ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 ../Core/Inc/FreeRTOSConfig.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h:
@@ -80,6 +85,9 @@ Core/Src/freertos.o: ../Core/Src/freertos.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h:
@@ -108,3 +116,10 @@ Core/Src/freertos.o: ../Core/Src/freertos.c \
 ../Core/Inc/usart.h:
 ../Core/Inc/dma.h:
 ../Core/Inc/i2c.h:
+../Core/Inc/adc.h:
+../Core/Inc/Light_cntr.h:
+../Core/Inc/adc.h:
+../Core/Inc/dma.h:
+../Core/Inc/gpio.h:
+../Core/Inc/delay.h:
+../Core/Inc/Auto_Drive.h:

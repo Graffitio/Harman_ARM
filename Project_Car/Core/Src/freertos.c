@@ -34,6 +34,9 @@
 #include "usart.h"
 #include "dma.h"
 #include "i2c.h"
+#include "adc.h"
+#include "Light_cntr.h"
+#include "Auto_Drive.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -43,11 +46,10 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define MANUAL 0
-#define LIMIT_D 14 // 14
-#define LIMIT_F 28 // 28
-#define LIMIT_SPEED_R 98 // 98
-#define LIMIT_SPEED_T 95 // 86
+//#define LIMIT_D 14 // 14
+//#define LIMIT_F 29 // 28
+//#define LIMIT_SPEED_R 98 // 98
+//#define LIMIT_SPEED_T 95 // 86
 
 /* USER CODE END PD */
 
@@ -69,7 +71,9 @@ extern uint8_t ult_stg;
 //uint8_t mode_cnt;
 //uint8_t mode_cnt_lcd;
 //char bluetooth_buf[1];
-uint8_t dist_buff[30];
+
+//uint8_t dist_buff[30];
+extern uint16_t lum;
 
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
@@ -88,7 +92,7 @@ int __io_putchar(int ch)
 
 int __io_getchar(void)
 {
-	int ch; // buf?�� ???��?���????????????????????????????????????????????????????????? ?��?��?��, ch?��?�� ???��
+	int ch; // buf?�� ???��?���??????????????????????????????????????????????????????????? ?��?��?��, ch?��?�� ???��
 	while(1)
 	{
 		if(HAL_UART_Receive(&huart2, &ch, 1, 200) == HAL_OK)
@@ -142,15 +146,16 @@ void MX_FREERTOS_Init(void) {
 	  HAL_TIM_PWM_Start(&htim10, TIM_CHANNEL_1); // Left
 	  HAL_TIM_PWM_Start(&htim11, TIM_CHANNEL_1); // Right
 
-	  HAL_Delay(1000); // ?��?�� ?���???????????????????????????????????????????? ?��리니�???????????????????????????????????????????? ?��?��?�� 주자.
+	  HAL_Delay(1000); // ?��?�� ?���?????????????????????????????????????????????? ?��리니�?????????????????????????????????????????????? ?��?��?�� 주자.
 	  lcd_init();
-	  lcd_send_string("  Hello Master  "); // 12�?????????????????????????????????????????????��
+	  lcd_send_string("  Hello Master  "); // 12�???????????????????????????????????????????????��
 	  HAL_Delay(500);
-	  lcd_put_cur(1, 0); // ?��?�� ?��?���???????????????????????????????????????????? 커서 ?��?��
-	  lcd_send_string("  Drive Start!  "); // 12�?????????????????????????????????????????????��
+	  lcd_put_cur(1, 0); // ?��?�� ?��?���?????????????????????????????????????????????? 커서 ?��?��
+	  lcd_send_string("  Drive Start!  "); // 12�???????????????????????????????????????????????��
 	  HAL_Delay(1000);
 	lcd_clear();
 	ult_stg = 1;
+	HAL_GPIO_WritePin(Back_Red_Lamp_GPIO_Port, Back_Red_Lamp_Pin, 1);
 //	mode_cnt = HAL_GPIO_ReadPin(Blue_button_GPIO_Port, Blue_button_Pin);
   /* USER CODE END Init */
 
@@ -210,7 +215,9 @@ void StartDefaultTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	  ADC_start();
+	  Light();
+    osDelay(150);
   }
   /* USER CODE END StartDefaultTask */
 }
@@ -259,150 +266,125 @@ void Auto_Drive01(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-	  extern uint8_t distance_L;
-	  extern uint8_t distance_M;
-	  extern uint8_t distance_R;
-	  extern uint8_t mode_cnt;
-	  extern uint8_t mode;
-	  uint8_t mode_cnt_lcd = HAL_GPIO_ReadPin(Blue_button_GPIO_Port, Blue_button_Pin);
-	  sprintf(dist_buff, "L%-3d M%-3d R%-3d", distance_L, distance_M, distance_R);
-	  lcd_put_cur(1, 0);
-	  lcd_send_string(dist_buff);
-	  motor_control(&buf);
-	  if(mode == 0)
-	  {
+//	  extern uint8_t distance_L;
+//	  extern uint8_t distance_M;
+//	  extern uint8_t distance_R;
+//	  extern uint8_t mode_cnt;
+//	  extern uint8_t mode;
+//	  uint8_t mode_cnt_lcd = HAL_GPIO_ReadPin(Blue_button_GPIO_Port, Blue_button_Pin);
+//	  sprintf(dist_buff, "L%-3d M%-3d R%-3d", distance_L, distance_M, distance_R);
+//	  lcd_put_cur(1, 0);
+//	  lcd_send_string(dist_buff);
+//	  motor_control(&buf);
+//	  if(mode == 0)
+//	  {
+////		  if(mode_cnt_lcd == 0) Stop();
+////		  lcd_put_cur(1, 0);
+////		  lcd_send_string("  Manual Drive  ");
+//		  motor_control(&buf);
+//	  }
+//	  else
+//	  {
+//		  // distance_L, distance_M, distance_R
 //		  if(mode_cnt_lcd == 0) Stop();
-//		  lcd_put_cur(1, 0);
-//		  lcd_send_string("  Manual Drive  ");
-		  motor_control(&buf);
-	  }
-	  else
-	  {
-		  // distance_L, distance_M, distance_R
-		  if(mode_cnt_lcd == 0) Stop();
-//		lcd_put_cur(1, 0);
-//		lcd_send_string("   Auto Drive   ");
-		  if(distance_M >= LIMIT_F)
-		  {
-			  if((distance_L > LIMIT_D) && (distance_R > LIMIT_D))
-			  {
-				  Forward();
-				  htim10.Instance->CCR1 = LIMIT_SPEED_R; // Left
-				  htim11.Instance->CCR1 = LIMIT_SPEED_R; // Right
-			  }
-			  else if(distance_L < LIMIT_D)
-			  {
-				  Stop();
-				  Forward();
-				  htim10.Instance->CCR1 = 98; // Left
-				  htim11.Instance->CCR1 = 66; // Right
+////		lcd_put_cur(1, 0);
+////		lcd_send_string("   Auto Drive   ");
+//		  if(distance_M >= LIMIT_F)
+//		  {
+//			  if((distance_L > LIMIT_D) && (distance_R > LIMIT_D))
+//			  {
+//				  Forward();
+//				  htim10.Instance->CCR1 = LIMIT_SPEED_R; // Left
+//				  htim11.Instance->CCR1 = LIMIT_SPEED_R; // Right
+//			  }
+//			  else if(distance_L < LIMIT_D)
+//			  {
 //				  Stop();
-//				  Right();
-//				  htim10.Instance->CCR1 = LIMIT_SPEED_T; // Left
-//				  htim11.Instance->CCR1 = LIMIT_SPEED_T; // Right
-//				  Right();
-////				  htim10.Instance->CCR1 = 4000; // Left
-////				  htim11.Instance->CCR1 = 3000; // Right
-//				  htim10.Instance->CCR1 = 8000; // Left
-//				  htim11.Instance->CCR1 = 8000; // Right-
-				  state = 3;
-//			  delay_us(10000);
-			  }
-			  else if(distance_R < LIMIT_D)
-			  {
-				  Stop();
-				  Forward();
-				  htim10.Instance->CCR1 = 66; // Left
-				  htim11.Instance->CCR1 = 98; // Right
-//				  Stop();
-//				  Left();
-//				  htim10.Instance->CCR1 = LIMIT_SPEED_T; // Left
-//				  htim11.Instance->CCR1 = LIMIT_SPEED_T; // Right
-//				  Left();
-//				  htim10.Instance->CCR1 = 8000; // Left-
-//				  htim11.Instance->CCR1 = 8000; // Right
-//			  delay_us(10000);
-			  }
-		  }
-		  else if(distance_M < LIMIT_F)
-		  {
-//			  Forward();
-			  Stop();
-			  htim10.Instance->CCR1 = LIMIT_SPEED_R; // Left
-			  htim11.Instance->CCR1 = LIMIT_SPEED_R; // Right
-////			  delay_us(50000);
-			  if((distance_L - distance_R) <= 0)
-			  {
-//				  Right();
-//				  htim10.Instance->CCR1 = 100; // Left
-//				  htim11.Instance->CCR1 = 100; // Right-
 //				  Forward();
 //				  htim10.Instance->CCR1 = 98; // Left
-//				  htim11.Instance->CCR1 = 60; // Right
-				  Right();
-				  htim10.Instance->CCR1 = LIMIT_SPEED_T; // Left
-				  htim11.Instance->CCR1 = LIMIT_SPEED_T; // Right
-			  }
-			  else if((distance_L - distance_R) > 0)
-			  {
-//				  Left();
-//				  htim10.Instance->CCR1 = 100; // Left-
-//				  htim11.Instance->CCR1 = 100; // Right
+//				  htim11.Instance->CCR1 = 63; // Right
+//				  HAL_GPIO_WritePin(Back_Red_Lamp_GPIO_Port, Back_Red_Lamp_Pin, 0);
+//				  HAL_GPIO_WritePin(Back_Blue_Right_Lamp_GPIO_Port, Back_Blue_Right_Lamp_Pin, 0);
+//				  HAL_GPIO_WritePin(Back_Blue_Left_Lamp_GPIO_Port, Back_Blue_Left_Lamp_Pin, 1);
+////				  Stop();
+////				  Right();
+////				  htim10.Instance->CCR1 = LIMIT_SPEED_T; // Left
+////				  htim11.Instance->CCR1 = LIMIT_SPEED_T; // Right
+////				  Right();
+//////				  htim10.Instance->CCR1 = 4000; // Left
+//////				  htim11.Instance->CCR1 = 3000; // Right
+////				  htim10.Instance->CCR1 = 8000; // Left
+////				  htim11.Instance->CCR1 = 8000; // Right-
+//				  state = 3;
+////			  delay_us(10000);
+//			  }
+//			  else if(distance_R < LIMIT_D)
+//			  {
+//				  Stop();
 //				  Forward();
-//				  htim10.Instance->CCR1 = 60; // Left
+//				  htim10.Instance->CCR1 = 63; // Left
 //				  htim11.Instance->CCR1 = 98; // Right
-				  Left();
-				  htim10.Instance->CCR1 = LIMIT_SPEED_T; // Left
-				  htim11.Instance->CCR1 = LIMIT_SPEED_T; // Right
-			  }
-		  }
-//		  if((distance_L > LIMIT_D) && (distance_R > LIMIT_D))
-//		  {
-//			  Forward();
-//			  htim10.Instance->CCR1 = 10000; // Left
-//			  htim11.Instance->CCR1 = 10000; // Right
-//			  state = 1;
-//		  }
-//		  else if(distance_L < LIMIT_D)
-//		  {
-//			  Forward();
-//			  htim10.Instance->CCR1 = 10000; // Left
-//			  htim11.Instance->CCR1 = 3000; // Right
-//			  state = 3;
+//				  HAL_GPIO_WritePin(Back_Red_Lamp_GPIO_Port, Back_Red_Lamp_Pin, 0);
+//				  HAL_GPIO_WritePin(Back_Blue_Right_Lamp_GPIO_Port, Back_Blue_Right_Lamp_Pin, 1);
+//				  HAL_GPIO_WritePin(Back_Blue_Left_Lamp_GPIO_Port, Back_Blue_Left_Lamp_Pin, 0);
+////				  Stop();
+////				  Left();
+////				  htim10.Instance->CCR1 = LIMIT_SPEED_T; // Left
+////				  htim11.Instance->CCR1 = LIMIT_SPEED_T; // Right
+////				  Left();
+////				  htim10.Instance->CCR1 = 8000; // Left-
+////				  htim11.Instance->CCR1 = 8000; // Right
 ////			  delay_us(10000);
-//		  }
-//		  else if(distance_R < LIMIT_D)
-//		  {
-//			  Forward();
-//			  htim10.Instance->CCR1 = 3000; // Left
-//			  htim11.Instance->CCR1 = 10000; // Right
-//			  state = 7;
-////			  delay_us(10000);
-//		  }
-//		  else if((distance_L < LIMIT_D) && (distance_R < LIMIT_D))
-//		  {
-//			  Backward();
-////			  htim10.Instance->CCR1 = 10000; // Left
-////			  htim11.Instance->CCR1 = 10000; // Right
-////				  delay_us(10000);
-//			  if((distance_L - distance_R) > 0)
-//			  {
-////					  Forward();
-//				  htim10.Instance->CCR1 = 10000; // Left
-//				  htim11.Instance->CCR1 = 3000; // Right
-////					  htim11.Instance->CCR1 = 10000; // Left
-////					  htim10.Instance->CCR1 = 3000; // Right
 //			  }
-//			  else if((distance_L - distance_R) <= 0)
+////			  else if((distance_L < 28) && (distance_R > 28))
+////			  {
+////				  Stop();
+////				  Forward();
+////				  htim10.Instance->CCR1 = 63; // Left
+////				  htim11.Instance->CCR1 = 98; // Right
+////			  }
+////			  else if((distance_L > 28) && (distance_R < 28))
+////			  {
+////				  Stop();
+////				  Forward();
+////				  htim10.Instance->CCR1 = 98; // Left
+////				  htim11.Instance->CCR1 = 63; // Right
+////			  }
+//		  }
+//		  else if(distance_M < LIMIT_F)
+//		  {
+////			  Forward();
+//			  Stop();
+//			  htim10.Instance->CCR1 = LIMIT_SPEED_R; // Left
+//			  htim11.Instance->CCR1 = LIMIT_SPEED_R; // Right
+//////			  delay_us(50000);
+//			  if((distance_L - distance_R) <= 0)
 //			  {
-////					  Forward();
-//				  htim10.Instance->CCR1 = 3000; // Left
-//				  htim11.Instance->CCR1 = 10000; // Right
-////					  htim11.Instance->CCR1 = 3000; // Left
-////					  htim10.Instance->CCR1 = 10000; // Right
+////				  Right();
+////				  htim10.Instance->CCR1 = 100; // Left
+////				  htim11.Instance->CCR1 = 100; // Right-
+////				  Forward();
+////				  htim10.Instance->CCR1 = 98; // Left
+////				  htim11.Instance->CCR1 = 60; // Right
+//				  Right();
+//				  htim10.Instance->CCR1 = LIMIT_SPEED_T; // Left
+//				  htim11.Instance->CCR1 = LIMIT_SPEED_T; // Right
+//			  }
+//			  else if((distance_L - distance_R) > 0)
+//			  {
+////				  Left();
+////				  htim10.Instance->CCR1 = 100; // Left-
+////				  htim11.Instance->CCR1 = 100; // Right
+////				  Forward();
+////				  htim10.Instance->CCR1 = 60; // Left
+////				  htim11.Instance->CCR1 = 98; // Right
+//				  Left();
+//				  htim10.Instance->CCR1 = LIMIT_SPEED_T; // Left
+//				  htim11.Instance->CCR1 = LIMIT_SPEED_T; // Right
 //			  }
 //		  }
-	  }
+//	  }
+	  Auto_Drive_01();
     osDelay(1);
   }
   /* USER CODE END Auto_Drive01 */
